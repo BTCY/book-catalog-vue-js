@@ -6,9 +6,8 @@ import HelloWorld from './components/HelloWorld.vue'
 <template>
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="48" height="48" />
-<h1>TEST</h1>
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <HelloWorld msg="Book list" />
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
@@ -24,5 +23,5 @@ import HelloWorld from './components/HelloWorld.vue'
 header {
   line-height: 1.5;
   width: 100%;
-} 
+}
 </style>
