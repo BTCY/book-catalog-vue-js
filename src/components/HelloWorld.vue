@@ -8,9 +8,25 @@ defineProps<{
 <template>
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
+    <div class="query">
+      <form @submit.prevent="search">
+        <div>
+          <input type="text" v-model="keyword" placeholder="Search..." class="input" required>
+          <input type="submit" value="Search" class="button">
+        </div>
+        <div>
+          <label for="order">Order by</label>&nbsp;
+          <select name="order" v-model="orderBy" @change="search">
+            <option value="newest">newest</option>
+            <option value="relevance">relevance</option>
+          </select>
+        </div>
+      </form>
+    </div>
+
     <div class="col-md-12">
       <ul>
-        <li v-for="(book, index) in catFacts.items" :key="index" class="list-group-item">
+        <li v-for="book in books.items" :key="book.id" class="list-group-item">
           <h3>{{ book.volumeInfo.title }}</h3>
           <div class="book-content-wrap">
             <img class="book-thumbnail" :src=book.volumeInfo.imageLinks.thumbnail>
@@ -35,17 +51,33 @@ export default {
   name: 'AnimalFacts',
   data() {
     return {
-      catFacts: [] as any,
-      fetchingFacts: false
+      books: [] as any,
+      keyword: '',
+      orderBy: 'newest',
+      maxResults: '10',
+      loadState: ''
     }
   },
+  methods: {
+    search() {
+      this.loadState = 'loading'
+      getBooks(this.keyword)
+        .then((response) => {
+          this.books = response
+          this.loadState = 'success'
+          console.log(response)
+        })
+        .catch((error) => console.log(error))
+    }
+  },
+
   mounted() {
-    getBooks()
-      .then((response) => {
-        this.catFacts = response;
-        console.log(response)
-      })
-      .catch((error) => console.log(error))
+    // getBooks()
+    //   .then((response) => {
+    //     this.catFacts = response;
+    //     console.log(response)
+    //   })
+    //   .catch((error) => console.log(error))
   }
 }
 </script>

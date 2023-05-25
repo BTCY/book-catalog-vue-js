@@ -4,9 +4,7 @@ import axios from 'axios'
  * @file API: Indexed DB.
  */
 
-const headers = {
-    // "key": "AIzaSyB7fcxmsckIlWDr67JBMLTW3A8Sz0Wrgy4", 
-}
+const key = "AIzaSyB7fcxmsckIlWDr67JBMLTW3A8Sz0Wrgy4"
 
 /**
  *  API .
@@ -15,13 +13,16 @@ const headers = {
  * @return  {any}    Exchange rate history
  */
 export const getBooks = (
-    start_date?: string,
+    q: string,
 ): Promise<any> =>
-    axios.get<any>( 
-        "https://www.googleapis.com/books/v1/volumes?q=quilting", { 
-        // params: { id: "buc0AAAAMAAJ", dq: "holmes", as_brr: 4, source: "webstore_bookcard" }
+    axios.get<any>(
+        "https://www.googleapis.com/books/v1/volumes", {
+        params: {
+            q,
+            key,
+        }
     })
         .then((res: any) => res.data)
         .catch((e: any) => {
             throw e;
-        }); 
+        });  
