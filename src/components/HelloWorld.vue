@@ -30,7 +30,9 @@ defineProps<{
           <h3>{{ book.volumeInfo.title }}</h3>
           <div class="book-content-wrap">
             <img class="book-thumbnail" :src=book.volumeInfo.imageLinks.thumbnail>
-            <strong>{{ book.volumeInfo.subtitle }}</strong><br />
+            <strong>{{ book.volumeInfo.subtitle }}</strong>
+            <RouterLink :to="{ name: 'book', params: { bookId: book.id } }">About</RouterLink>
+            <br />
             {{ book.volumeInfo.description }}
           </div>
         </li>
@@ -72,12 +74,12 @@ export default {
   },
 
   mounted() {
-    // getBooks()
-    //   .then((response) => {
-    //     this.catFacts = response;
+    // getBook('V0NCAAAAIAAJ')
+    //   .then((response: any) => {
     //     console.log(response)
     //   })
-    //   .catch((error) => console.log(error))
+    //   .catch((error: any) => console.log(error))
+
   }
 }
 </script>

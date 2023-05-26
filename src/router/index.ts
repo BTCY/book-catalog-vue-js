@@ -7,7 +7,12 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+    },
+    {
+      path: '/book/:bookId',
+      name: 'book',
+      component: () => import('../views/BookView.vue'),
     },
     {
       path: '/about',

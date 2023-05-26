@@ -25,4 +25,24 @@ export const getBooks = (
         .then((res: any) => res.data)
         .catch((e: any) => {
             throw e;
+        });
+
+/**
+ *  API .
+ * 
+ * @param   {string}   start_date        The start date of your preferred timeframe. 
+ * @return  {any}    Exchange rate history
+ */
+export const getBook = (
+    bookId: string,
+): Promise<any> =>
+    axios.get<any>(
+        `https://www.googleapis.com/books/v1/volumes/${bookId}`, {
+        params: {
+            key,
+        }
+    })
+        .then((res: any) => res.data)
+        .catch((e: any) => {
+            throw e;
         });  
