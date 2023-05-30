@@ -1,13 +1,9 @@
 <script setup lang="ts">
-defineProps<{
-  msg: string
-}>()
 </script> 
 
 
 <template>
   <div class="greetings">
-    <h1 class="green">{{ msg }}</h1>
     <div class="query">
       <form @submit.prevent="search">
         <div>
@@ -29,7 +25,7 @@ defineProps<{
         <li v-for="book in books.items" :key="book.id" class="list-group-item">
           <h3>{{ book.volumeInfo.title }}</h3>
           <div class="book-content-wrap">
-            <img class="book-thumbnail" :src=book.volumeInfo.imageLinks.thumbnail>
+            <img class="book-thumbnail" :src=book.volumeInfo?.imageLinks?.thumbnail>
             <strong>{{ book.volumeInfo.subtitle }}</strong>
             <RouterLink :to="{ name: 'book', params: { bookId: book.id } }">About</RouterLink>
             <br />

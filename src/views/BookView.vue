@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Book from '../components/book/Book.vue'
+import BookDetails from '../components/BookDetails.vue'
 </script>
 
 <template>
-  <Book />
+  <BookDetails />
 </template>
 
 
