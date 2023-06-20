@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import Home from '../components/Home.vue';
+import BookSearch from '../components/book-search/BookSearch.vue';
 </script>
 
 <template>
-  <main>
-    <Home />
-  </main>
+  <BookSearch />
 </template>
+ 
