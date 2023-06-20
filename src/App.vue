@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 import BaseLayout from './layouts/BaseLayout.vue';
-import Header from './components/Header.vue'; 
+import Header from './components/header/Header.vue'; 
 </script>
 
 <template>

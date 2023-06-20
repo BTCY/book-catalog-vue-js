@@ -32,7 +32,7 @@ export default {
    text-align: center;
    width: 100%;
    box-sizing: border-box;
-   padding-top: 10%;
+   padding-top: 6%;
    margin-bottom: 30px;
  }
 
@@ -79,6 +79,7 @@ export default {
    text-transform: uppercase;
    color: #616161;
    transition: .150ms;
+   border-radius: 5px;
  }
 
  nav>a:hover {
@@ -88,12 +89,10 @@ export default {
  .router-link-active {
    background-color: #616161;
    color: #fefefe;
-
  }
 
  .router-link-active:hover {
    background-color: #616161;
    color: #fefefe;
-
  }
 </style>

@@ -15,9 +15,10 @@
 <style scoped> .container {
    height: 100vh;
    width: 100%;
-   background-color: #fefefe;
+   background-color: #fbfbfb;
    box-sizing: border-box;
    font-size: 16px;
+   padding: 0px 20px 90px;
  }
 
  .container-in {
@@ -26,7 +27,7 @@
    box-sizing: border-box;
    max-width: 900px;
    margin: 0 auto;
-   /* border: 1px solid #888 */
+   padding-bottom: 20px;
  }
 </style>
 
