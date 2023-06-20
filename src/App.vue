@@ -1,28 +1,23 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router' 
+import { RouterView } from 'vue-router';
+import BaseLayout from './layouts/BaseLayout.vue';
+import Header from './components/Header.vue'; 
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="48" height="48" />
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
+  <BaseLayout>
 
-  <RouterView v-slot="{ Component }">
-    <KeepAlive>
-      <component :is="Component" :key="$route.fullPath" />
-    </KeepAlive>
-  </RouterView>
+    <template v-slot:header>
+      <Header></Header>
+    </template>
+
+
+    <RouterView v-slot="{ Component }">
+      <KeepAlive>
+        <component :is="Component" :key="$route.fullPath" />
+      </KeepAlive>
+    </RouterView>
+
+  </BaseLayout>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  width: 100%;
-}
-</style>
+ 
