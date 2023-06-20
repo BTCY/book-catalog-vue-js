@@ -97,4 +97,8 @@ export default {
    top: 10px;
    left: 0px;
  }
+
+ .input { 
+   border-bottom: 3px solid #b71c1c;
+ }
 </style>
