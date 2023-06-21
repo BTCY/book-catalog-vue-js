@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { IApiBook } from './books-service.types';
+import type { IApiBook, IApiGetBooks } from './books-service.types';
 
 /**
  * @file API: Indexed DB.
@@ -10,20 +10,21 @@ const key = "AIzaSyB7fcxmsckIlWDr67JBMLTW3A8Sz0Wrgy4"
 /**
  *  API .
  * 
- * @param   {string}   start_date        The start date of your preferred timeframe. 
- * @return  {any}    Exchange rate history
+ * @param   {string}   q        The start date of your preferred timeframe. 
+ * @return  {Promise<IApiGetBooks>}    Exchange rate history
  */
 export const getBooks = (
     q: string,
-): Promise<any> =>
-    axios.get<any>(
+): Promise<IApiGetBooks> =>
+    axios.get<IApiGetBooks>(
         "https://www.googleapis.com/books/v1/volumes", {
         params: {
             q,
             key,
+            maxResults: "40"
         }
     })
-        .then((res: any) => res.data)
+        .then(res => res.data)
         .catch((e: any) => {
             throw e;
         });
@@ -31,8 +32,8 @@ export const getBooks = (
 /**
  *  API .
  * 
- * @param   {string}   start_date        The start date of your preferred timeframe. 
- * @return  {any}    Exchange rate history
+ * @param   {string}   bookId      The start date of your preferred timeframe. 
+ * @return  {Promise<IApiBook>}    Exchange rate history
  */
 export const getBook = (
     bookId: string,

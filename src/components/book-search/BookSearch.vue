@@ -2,6 +2,7 @@
 import { getBooks } from '@/api/books-service';
 import { debounce } from '@/utils/debounce';
 import BookSearchList from './BookSearchList.vue'; 
+import type { IApiGetBooks } from '@/api/books-service.types';
 </script> 
 
 
@@ -28,10 +29,10 @@ export default {
   name: 'BookSearch',
   data() {
     return {
-      books: [] as any,
+      books: undefined as IApiGetBooks | undefined,
       keyword: '',
       orderBy: 'newest',
-      maxResults: '10',
+      maxResults: '500',
       loadState: ''
     }
   },
