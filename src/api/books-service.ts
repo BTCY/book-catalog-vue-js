@@ -1,4 +1,5 @@
 import axios from 'axios'
+import type { IApiBook } from './books-service.types';
 
 /**
  * @file API: Indexed DB.
@@ -35,14 +36,14 @@ export const getBooks = (
  */
 export const getBook = (
     bookId: string,
-): Promise<any> =>
-    axios.get<any>(
+): Promise<IApiBook> =>
+    axios.get<IApiBook>(
         `https://www.googleapis.com/books/v1/volumes/${bookId}`, {
         params: {
             key,
         }
     })
-        .then((res: any) => res.data)
+        .then(res => res.data)
         .catch((e: any) => {
             throw e;
         });  
