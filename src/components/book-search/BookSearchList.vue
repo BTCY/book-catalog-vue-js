@@ -1,14 +1,16 @@
 <script setup lang="ts">
+import type { IApiGetBooks } from '@/api/books-service.types';
+
 defineProps<{
-  books: any
+  books: IApiGetBooks | undefined
 }>()
 </script> 
 
 
 <template>
-  <ul>
+  <ul v-if="books?.items && books?.items?.length > 0">
     <li v-for="book in books.items" :key="book.id">
-      <h3>{{ book.volumeInfo.title }}</h3>
+      <h3>{{ book.volumeInfo?.title }}</h3>
       <div class="book-content-wrap">
 
         <div class="thumbnail-wrap">
@@ -16,7 +18,7 @@ defineProps<{
         </div>
 
         <div class="text-wrap">
-          {{ book.volumeInfo.description }}
+          {{ book.volumeInfo?.description }}
           <br />
           <RouterLink :to="{ name: 'book', params: { bookId: book.id } }">More</RouterLink>
         </div>
