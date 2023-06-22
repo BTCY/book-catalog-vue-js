@@ -3,41 +3,16 @@
 
 
 <template>
-  <div class="book-div-wrap" v-if="book !== undefined">
+  <div class="book-details-wrap" v-if="book !== undefined">
 
-    <h1>{{ book.volumeInfo?.title }}</h1>
     <div class="book-content-wrap">
 
       <div class="thumbnail-wrap">
-        <img class="book-thumbnail" :src=book.volumeInfo?.imageLinks?.thumbnail>
+        <img class="book-thumbnail" :src=book?.main?.image>
       </div>
 
       <div class="text-wrap">
-        id: {{ book.id }}<br />
-        categories: {{ book.volumeInfo?.categories?.map(c => c) }}<br />
-        description: {{ book.volumeInfo?.description }}<br />
-        publisher: {{ book.volumeInfo?.publisher }}<br />
-        publishedDate: {{ book.volumeInfo?.publishedDate }}<br />
-        printedPageCount: {{ book.volumeInfo?.printedPageCount }}<br />
-        printType: {{ book.volumeInfo?.printType }}<br />
-        previewLink: {{ book.volumeInfo?.previewLink }}<br />
-        industryIdentifiers: {{ book.volumeInfo?.industryIdentifiers?.map(i => i) }}<br />
-        maturityRating: {{ book.volumeInfo?.maturityRating }}<br />
-        language: {{ book.volumeInfo?.language }}<br />
-        infoLink: {{ book.volumeInfo?.infoLink }}<br />
-        imageLinksMedium: {{ book.volumeInfo?.imageLinks?.medium }}<br />
-        dimensions: {{ book.volumeInfo?.dimensions }}<br />
-        canonicalVolumeLink: {{ book.volumeInfo?.canonicalVolumeLink }}<br />
-        authors: {{ book.volumeInfo?.authors?.map(a => a) }}<br />
-        readingModes:
-        image - {{ book.volumeInfo?.readingModes?.image }} <br />
-        text - {{ book.volumeInfo?.readingModes?.text }}<br />
-        saleInfo:
-        isEbook - {{ book.saleInfo?.isEbook }}<br />
-        amount - {{ book.saleInfo?.listPrice?.amount }}<br />
-        currencyCode - {{ book.saleInfo?.listPrice?.currencyCode }}<br />
-        <br />
-        <RouterLink :to="{ name: 'book', params: { bookId: book.id } }">More</RouterLink>
+        <h1>{{ book?.main?.title }}</h1>
       </div>
 
     </div>
@@ -55,31 +30,117 @@ export default {
   name: 'BookDetails',
   data() {
     return {
-      book: undefined as undefined | IApiBook,
+      book: undefined as undefined | any,
       loadState: ''
     }
   },
-  // methods: {  }, 
+  methods: {
+    bookDataAdapter(apiBookData: IApiBook) {
+      return ({
+        main: {
+          "title": apiBookData.volumeInfo?.title,
+          "image": apiBookData.volumeInfo?.imageLinks?.thumbnail,
+
+          //       readingModes:
+          //       image - {{ apiBookData.volumeInfo?.readingModes?.image }
+          //     }  
+          //         text - {{ apiBookData.volumeInfo?.readingModes?.text }}
+          // saleInfo:
+          // isEbook - {{ apiBookData.saleInfo?.isEbook }}
+          // amount - {{ apiBookData.saleInfo?.listPrice?.amount }}
+          // currencyCode - {{ apiBookData.saleInfo?.listPrice?.currencyCode }} 
+        },
+        details: [
+          {
+            title: "Authors",
+            value: apiBookData.volumeInfo?.authors
+          },
+          {
+            title: "Categories",
+            value: apiBookData.volumeInfo?.categories
+          },
+          {
+            title: "Publisher",
+            value: apiBookData.volumeInfo?.publisher
+          },
+          {
+            title: "Published date",
+            value: apiBookData.volumeInfo?.publishedDate
+          },
+          {
+            title: "Description",
+            value: apiBookData.volumeInfo?.description
+          },
+          {
+            title: "Page count",
+            value: apiBookData.volumeInfo?.printedPageCount
+          },
+          {
+            title: "Print type",
+            value: apiBookData.volumeInfo?.printType
+          },
+          {
+            title: "Preview link",
+            value: apiBookData.volumeInfo?.previewLink
+          },
+          {
+            title: "Industry identifiers",
+            value: apiBookData.volumeInfo?.industryIdentifiers
+          },
+          {
+            title: "Maturity rating",
+            value: apiBookData.volumeInfo?.maturityRating
+          },
+          {
+            title: "Language",
+            value: apiBookData.volumeInfo?.language
+          },
+          {
+            title: "Info link",
+            value: apiBookData.volumeInfo?.infoLink
+          },
+          {
+            title: "Dimensions",
+            value: apiBookData.volumeInfo?.dimensions
+          },
+          {
+            title: "Canonical volume link",
+            value: apiBookData.volumeInfo?.canonicalVolumeLink
+          },
+        ]
+      })
+    }
+  },
   mounted() {
     const route = useRoute()
     const bookId = route.params.bookId as string
     this.loadState = 'loading'
     getBook(bookId)
       .then(response => {
-        this.book = response
+        if (response !== undefined) {
+          this.book = this.bookDataAdapter(response);
+          // this.book = JSON.parse(
+          //   JSON.stringify(this.bookDataAdapter(response))
+          // )
+          // console.log(this.book)
+        }
         this.loadState = 'success'
-        console.log(response)
       })
       .catch((error: any) => console.log(error))
   }
 }
 </script>
 
-<style scoped> .book-div-wrap {
+<style scoped> .book-details-wrap {
    padding: 20px;
    margin-bottom: 30px;
    background-color: #ffffff;
    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
    border-radius: 10px;
+ }
+
+ .book-content-wrap {
+   display: grid;
+   grid-template-columns: 160px auto;
  }
 </style>
