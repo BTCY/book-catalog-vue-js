@@ -1,4 +1,4 @@
-# Book catalog
+# Book catalog — in progress
 
 ## Table of Contents
 + [About](#about)
