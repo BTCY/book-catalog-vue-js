@@ -7,7 +7,7 @@ defineProps<{
 
 <template>
   <div class="field-wrap" v-if="typeof field?.value === 'string' || typeof field?.value === 'number'">
-    <span>{{ field.title }}</span>
+    <h4>{{ field.title }}</h4>
     <span>{{ field.value }}</span>
   </div>
 </template>
@@ -25,6 +25,10 @@ export default {
 </script>
 
 <style scoped> .field-wrap {
-   padding: 10px 5p;
+   margin-bottom: 20px;
+ }
+
+ .field-wrap h4 {
+   margin: 0px 0px 4px;
  }
 </style>
