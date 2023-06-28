@@ -6,18 +6,25 @@ defineProps<{
 
 
 <template>
-  <div class="field-wrap" v-if="typeof field?.value === 'string' || typeof field?.value === 'number'">
-    <h4>{{ field.title }}</h4>
-    <span>{{ field.value }}</span>
-  </div>
-</template>
+  <div class="field-wrap" v-if="(typeof field?.value === 'string' || typeof field?.value === 'number')
+    || (Array.isArray(field?.value) && field?.value?.length > 0)">
 
+    <h4>{{ field.title }}</h4>
+
+    <ul v-if="Array.isArray(field?.value) && field?.value?.length > 0">
+      <li v-for="v, i in field.value" :key="i">{{ v }}</li>
+    </ul>
+
+    <span v-else>{{ field.value }}</span>
+
+  </div>
+</template> 
 
 
 <script lang="ts">
 interface Field {
   title: string;
-  value: string | number | undefined | null;
+  value: unknown;
 }
 export default {
   name: 'BookDetailsField',
@@ -30,5 +37,10 @@ export default {
 
  .field-wrap h4 {
    margin: 0px 0px 4px;
+ }
+
+ .field-wrap ul {
+   padding: 0px 0px 0px 16px;
+   margin: 0px;
  }
 </style>
