@@ -8,8 +8,17 @@ import BookDetailsField from './BookDetailsField.vue'
 
     <div class="book-content-wrap">
 
-      <div class="book-image-wrap">
+      <div class="asaid-wrap">
         <img class="book-image" :src=book?.image>
+
+        <div>
+          {{ `${book.printType.title} ${book.printType.value}` }}
+          {{ `${book.infoLink.title} ${book.infoLink.value}` }}
+          {{ `${book.canonicalVolumeLink.title} ${book.canonicalVolumeLink.value}` }}
+          {{ `${book.previewLink.title} ${book.previewLink.value}` }}
+          {{ `${book.price.title} ${book.price.value}` }}
+          {{ `${book.isEbook.title} ${book.isEbook.value}` }}
+        </div>
       </div>
 
       <div class="info-wrap">
@@ -47,19 +56,37 @@ export default {
   },
   methods: {
     bookDataAdapter(apiBookData: IApiBook) {
+      console.log(apiBookData);
       return ({
-        "title": apiBookData.volumeInfo?.title,
-        "image": apiBookData.volumeInfo?.imageLinks?.thumbnail,
-        "description": apiBookData.volumeInfo?.description,
-
-        //       readingModes:
-        //       image - {{ apiBookData.volumeInfo?.readingModes?.image }
-        //     }  
-        //         text - {{ apiBookData.volumeInfo?.readingModes?.text }}
-        // saleInfo:
-        // isEbook - {{ apiBookData.saleInfo?.isEbook }}
-        // amount - {{ apiBookData.saleInfo?.listPrice?.amount }}
-        // currencyCode - {{ apiBookData.saleInfo?.listPrice?.currencyCode }}  
+        title: apiBookData.volumeInfo?.title,
+        image: apiBookData.volumeInfo?.imageLinks?.thumbnail,
+        description: apiBookData.volumeInfo?.description,
+        printType: {
+          title: "Print type",
+          value: apiBookData.volumeInfo?.printType
+        },
+        infoLink: {
+          title: "Info link",
+          value: apiBookData.volumeInfo?.infoLink
+        },
+        canonicalVolumeLink: {
+          title: "Canonical volume link",
+          value: apiBookData.volumeInfo?.canonicalVolumeLink
+        },
+        previewLink: {
+          title: "Preview link",
+          value: apiBookData.volumeInfo?.previewLink
+        },
+        price: {
+          title: "Price",
+          value: apiBookData.saleInfo?.listPrice?.amount && apiBookData.saleInfo?.listPrice?.currencyCode
+            ? apiBookData.saleInfo.listPrice.amount + apiBookData.saleInfo.listPrice.currencyCode
+            : undefined
+        },
+        isEbook: {
+          title: "isEbook",
+          value: apiBookData.saleInfo?.isEbook
+        },
         details: [
           {
             title: "Authors",
@@ -69,61 +96,9 @@ export default {
             title: "Categories",
             value: apiBookData.volumeInfo?.categories
           },
-          {
-            title: "Publisher",
-            value: apiBookData.volumeInfo?.publisher
-          },
-          {
-            title: "Published date",
-            value: apiBookData.volumeInfo?.publishedDate
-          },
-          {
-            title: "Page count",
-            value: apiBookData.volumeInfo?.printedPageCount
-          },
-          {
-            title: "Print type",
-            value: apiBookData.volumeInfo?.printType
-          },
-          {
-            title: "Preview link",
-            value: apiBookData.volumeInfo?.previewLink
-          },
-          {
-            title: "Industry identifiers",
-            value: apiBookData.volumeInfo?.industryIdentifiers
-          },
-          {
-            title: "Maturity rating",
-            value: apiBookData.volumeInfo?.maturityRating
-          },
-          {
-            title: "Language",
-            value: apiBookData.volumeInfo?.language
-          },
-          {
-            title: "Info link",
-            value: apiBookData.volumeInfo?.infoLink
-          },
-          {
-            title: "Dimensions",
-            value: apiBookData.volumeInfo?.dimensions
-          },
-          {
-            title: "Canonical volume link",
-            value: apiBookData.volumeInfo?.canonicalVolumeLink
-          },
         ].filter(f => f.value),
         subDetails: [
           {
-            title: "Authors",
-            value: apiBookData.volumeInfo?.authors
-          },
-          {
-            title: "Categories",
-            value: apiBookData.volumeInfo?.categories
-          },
-          {
             title: "Publisher",
             value: apiBookData.volumeInfo?.publisher
           },
@@ -136,16 +111,8 @@ export default {
             value: apiBookData.volumeInfo?.printedPageCount
           },
           {
-            title: "Print type",
-            value: apiBookData.volumeInfo?.printType
-          },
-          {
-            title: "Preview link",
-            value: apiBookData.volumeInfo?.previewLink
-          },
-          {
             title: "Industry identifiers",
-            value: apiBookData.volumeInfo?.industryIdentifiers
+            value: apiBookData.volumeInfo?.industryIdentifiers?.map(i => i.type + ' — ' + i.identifier)
           },
           {
             title: "Maturity rating",
@@ -156,18 +123,10 @@ export default {
             value: apiBookData.volumeInfo?.language
           },
           {
-            title: "Info link",
-            value: apiBookData.volumeInfo?.infoLink
-          },
-          {
             title: "Dimensions",
             value: apiBookData.volumeInfo?.dimensions
           },
-          {
-            title: "Canonical volume link",
-            value: apiBookData.volumeInfo?.canonicalVolumeLink
-          },
-        ].filter(f => f.value)
+        ].filter(f => f.value),
       })
     }
   },
@@ -203,7 +162,7 @@ export default {
    margin: 0px 0px 24px;
  }
 
- .book-image-wrap {
+ .asaid-wrap {
    padding: 20px;
  }
 
