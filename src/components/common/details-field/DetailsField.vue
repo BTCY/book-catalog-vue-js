@@ -27,7 +27,7 @@ interface Field {
   value: unknown;
 }
 export default {
-  name: 'BookDetailsField',
+  name: 'DetailsField',
 }
 </script>
 

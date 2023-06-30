@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BookDetailsField from './BookDetailsField.vue'
+import DetailsField from '../common/details-field/DetailsField.vue'
 </script> 
 
 
@@ -25,13 +25,13 @@ import BookDetailsField from './BookDetailsField.vue'
         <h1>{{ book?.title }}</h1>
 
         <div class="fields-wrap">
-          <BookDetailsField v-for="field in book.details" :key="field.title" :field="field" />
+          <DetailsField v-for="field in book.details" :key="field.title" :field="field" />
         </div>
 
-        <div contenteditable="true" v-html="book?.description"></div>
+        <div v-html="book?.description"></div>
 
         <div class="fields-wrap">
-          <BookDetailsField v-for="field in book.subDetails" :key="field.title" :field="field" />
+          <DetailsField v-for="field in book.subDetails" :key="field.title" :field="field" />
         </div>
       </div>
 
