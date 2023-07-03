@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import DetailsField from '../common/details-field/DetailsField.vue'
+import DetailsField from '../common/details-field/DetailsField.vue';
+import ButtonLink from '@/components/common/button-link/ButtonLink.vue';
 </script> 
 
 
@@ -11,18 +12,17 @@ import DetailsField from '../common/details-field/DetailsField.vue'
       <div class="asaid-wrap">
         <img class="book-image" :src=book?.image>
 
-        <div>
-          {{ `${book.printType.title} ${book.printType.value}` }}
-          {{ `${book.infoLink.title} ${book.infoLink.value}` }}
-          {{ `${book.canonicalVolumeLink.title} ${book.canonicalVolumeLink.value}` }}
-          {{ `${book.previewLink.title} ${book.previewLink.value}` }}
-          {{ `${book.price.title} ${book.price.value}` }}
-          {{ `${book.isEbook.title} ${book.isEbook.value}` }}
+        <div class="asaid-button-wrap">
+          <ButtonLink v-if=book.canonicalVolumeLink.value :text=book.canonicalVolumeLink.title
+            :link=book.canonicalVolumeLink.value />
+          <ButtonLink v-if=book.previewLink.value :text=book.previewLink.title :link=book.previewLink.value />
         </div>
       </div>
 
       <div class="info-wrap">
         <h1>{{ book?.title }}</h1>
+
+        {{ `${book.price.title} ${book.price.value}` }}
 
         <div class="fields-wrap">
           <DetailsField v-for="field in book.details" :key="field.title" :field="field" />
@@ -65,12 +65,8 @@ export default {
           title: "Print type",
           value: apiBookData.volumeInfo?.printType
         },
-        infoLink: {
-          title: "Info link",
-          value: apiBookData.volumeInfo?.infoLink
-        },
         canonicalVolumeLink: {
-          title: "Canonical volume link",
+          title: "Info link",
           value: apiBookData.volumeInfo?.canonicalVolumeLink
         },
         previewLink: {
@@ -82,10 +78,6 @@ export default {
           value: apiBookData.saleInfo?.listPrice?.amount && apiBookData.saleInfo?.listPrice?.currencyCode
             ? apiBookData.saleInfo.listPrice.amount + apiBookData.saleInfo.listPrice.currencyCode
             : undefined
-        },
-        isEbook: {
-          title: "isEbook",
-          value: apiBookData.saleInfo?.isEbook
         },
         details: [
           {
@@ -105,6 +97,10 @@ export default {
           {
             title: "Published date",
             value: apiBookData.volumeInfo?.publishedDate
+          },
+          {
+            title: "Print type",
+            value: apiBookData.volumeInfo?.printType
           },
           {
             title: "Page count",
@@ -168,6 +164,11 @@ export default {
 
  .book-image {
    max-width: 180px;
+   margin-bottom: 10px;
+ }
+
+ .asaid-button-wrap> :first-child {
+   margin-bottom: 10px;
  }
 
  .info-wrap {
