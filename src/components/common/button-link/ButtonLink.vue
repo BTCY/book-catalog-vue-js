@@ -1,35 +1,39 @@
 <script setup lang="ts">
-defineProps<{
-  text: string
-}>()
+interface IProps {
+  text: string;
+  link: string;
+  variant: VariantType;
+}
+
+withDefaults(defineProps<IProps>(), {
+  variant: VariantType.Text,
+}); 
 </script> 
 
 
 <template>
-  <button>{{ text }}</button>
+  <a :href="link">{{ text }}</a>
 </template> 
 
 
 <script lang="ts">
-interface Field {
-  title: string;
-  value: unknown;
+const enum VariantType {
+  Container = 'container',
+  Text = 'text',
+  Outline = 'outline',
 }
+
 export default {
   name: 'ButtonLink',
 }
 </script>
 
-<style scoped> .field-wrap {
-   margin-bottom: 20px;
- }
-
- .field-wrap h4 {
-   margin: 0px 0px 4px;
- }
-
- .field-wrap ul {
-   padding: 0px 0px 0px 16px;
-   margin: 0px;
+<style scoped> a {
+   padding: 10px 8px;
+   background-color: rgb(167, 140, 210);
+   display: inline-block;
+   color: #fff;
+   text-decoration: none;
+   border-radius: 4px;
  }
 </style>
