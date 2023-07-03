@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import DetailsField from '../common/details-field/DetailsField.vue';
-import ButtonLink from '@/components/common/button-link/ButtonLink.vue';
+import ButtonLink from '../common/button-link/ButtonLink.vue';
 </script> 
 
 

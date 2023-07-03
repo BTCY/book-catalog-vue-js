@@ -3,16 +3,18 @@ interface IProps {
   text: string;
   link: string;
   variant: VariantType;
+  fullWidth: boolean;
 }
 
 withDefaults(defineProps<IProps>(), {
   variant: VariantType.Text,
+  fullWidth: true
 }); 
 </script> 
 
 
 <template>
-  <a :href="link">{{ text }}</a>
+  <a :href="link" :style="style">{{ text }}</a>
 </template> 
 
 
@@ -24,7 +26,12 @@ const enum VariantType {
 }
 
 export default {
-  name: 'ButtonLink',
+  name: 'ButtonLink', 
+  computed: {
+      style () {
+        return {width :this.fullWidth ? '100%': 'auto'};
+      }
+    }
 }
 </script>
 
