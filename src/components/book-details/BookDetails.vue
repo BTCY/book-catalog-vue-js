@@ -28,7 +28,7 @@ import ButtonLink from '../common/button-link/ButtonLink.vue';
           <DetailsField v-for="field in book.details" :key="field.title" :field="field" />
         </div>
 
-        <div v-html="book?.description"></div>
+        <div v-html="book?.description" class="field-description"></div>
 
         <div class="fields-wrap">
           <DetailsField v-for="field in book.subDetails" :key="field.title" :field="field" />
@@ -61,16 +61,12 @@ export default {
         title: apiBookData.volumeInfo?.title,
         image: apiBookData.volumeInfo?.imageLinks?.thumbnail,
         description: apiBookData.volumeInfo?.description,
-        printType: {
-          title: "Print type",
-          value: apiBookData.volumeInfo?.printType
-        },
         canonicalVolumeLink: {
-          title: "Info link",
+          title: "Google Play",
           value: apiBookData.volumeInfo?.canonicalVolumeLink
         },
         previewLink: {
-          title: "Preview link",
+          title: "Preview",
           value: apiBookData.volumeInfo?.previewLink
         },
         price: {
@@ -109,10 +105,6 @@ export default {
           {
             title: "Industry identifiers",
             value: apiBookData.volumeInfo?.industryIdentifiers?.map(i => i.type + ' — ' + i.identifier)
-          },
-          {
-            title: "Maturity rating",
-            value: apiBookData.volumeInfo?.maturityRating
           },
           {
             title: "Language",
@@ -168,11 +160,15 @@ export default {
  }
 
  .asaid-button-wrap> :first-child {
-   margin-bottom: 10px;
+   margin-bottom: 4px;
  }
 
  .info-wrap {
    padding: 20px;
+ }
+
+ .field-description {
+   margin-bottom: 20px;
  }
 
  .fields-wrap {
