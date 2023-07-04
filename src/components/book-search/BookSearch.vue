@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { getBooks } from '@/api/books-service';
 import { debounce } from '@/utils/debounce';
-import BookSearchList from './BookSearchList.vue'; 
+import BookSearchList from './BookSearchList.vue';
 import type { IApiGetBooks } from '@/api/books-service.types';
 </script> 
 
 
 <template>
   <div class="toolbar">
-    <div>
-      <input type="text" v-model="keyword" placeholder="Search..." class="input" required>
+    <div class="search-wrap">
+      <input type="text" v-model="keyword" autofocus  placeholder="Search..." class="search-input" required>
     </div>
     <div>
       <label for="order">Order by</label>&nbsp;
@@ -60,11 +60,28 @@ export default {
 <style scoped>
 .toolbar {
   width: 100%;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 47%;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
-.input {
+.search-wrap {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.search-input {
+  display: inline-block;
   border: none;
   background-color: #fbfbfb;
   border-bottom: 3px solid #b71c1c;
+  width: 100%;
+  font-size: 2em;
+}
+
+.search-input:focus {
+  outline: none;
 }
 </style>
