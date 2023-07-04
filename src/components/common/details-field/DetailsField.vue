@@ -33,6 +33,7 @@ export default {
 
 <style scoped> .field-wrap {
    margin-bottom: 20px;
+   font-size: 0.875em;
  }
 
  .field-wrap h4 {
@@ -40,7 +41,7 @@ export default {
  }
 
  .field-wrap ul {
-   padding: 0px 0px 0px 16px;
+   padding: 0px 0px 0px 18px;
    margin: 0px;
  }
 </style>
