@@ -1,7 +1,11 @@
 {
   "name": "book-catalog-vue-js",
-  "version": "0.0.0",
+  "homepage": "https://btcy.github.io/book-catalog-vue-js/",
+  "version": "1.0.0",
+  "description": "Book catalog search",
   "private": true,
+  "author": "https://github.com/BTCY",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
