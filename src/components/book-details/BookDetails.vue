@@ -7,12 +7,18 @@ import ButtonLink from '../common/button-link/ButtonLink.vue';
 <template>
   <div class="book-details-wrap" v-if="book !== undefined">
 
+
     <div class="book-content-wrap">
 
       <div class="asaid-wrap">
         <img class="book-image" :src=book?.image>
 
-        <div class="asaid-button-wrap">
+        <button class="add-bookmark-button">
+          <img alt="logo" class="add-bookmark-button-icon" src="@/assets/bookmark.svg" />
+          <span>Add to bookmarks</span>
+        </button>
+
+        <div class="asaid-button-link-wrap">
           <ButtonLink v-if=book.canonicalVolumeLink.value :text=book.canonicalVolumeLink.title
             :link=book.canonicalVolumeLink.value />
           <ButtonLink v-if=book.previewLink.value :text=book.previewLink.title :link=book.previewLink.value />
@@ -22,7 +28,7 @@ import ButtonLink from '../common/button-link/ButtonLink.vue';
       <div class="info-wrap">
         <h1>{{ book?.title }}</h1>
 
-        {{ `${book.price.title} ${book.price.value}` }}
+        <p>{{ `${book.price.title} ${book.price.value}` }}</p>
 
         <div class="fields-wrap">
           <DetailsField v-for="field in book.details" :key="field.title" :field="field" />
@@ -134,46 +140,75 @@ export default {
 }
 </script>
 
-<style scoped> .book-details-wrap {
-   margin-bottom: 30px;
-   background-color: #ffffff;
-   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-   border-radius: 10px;
- }
+<style scoped>  .book-details-wrap {
+    margin-bottom: 30px;
+    background-color: #ffffff;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 10px;
+  }
 
- .book-content-wrap {
-   display: grid;
-   grid-template-columns: 180px auto;
- }
+  .book-content-wrap {
+    display: grid;
+    grid-template-columns: 180px auto;
+  }
 
- .book-content-wrap h1 {
-   margin: 0px 0px 24px;
- }
+  .book-content-wrap h1 {
+    margin: 0px 0px 24px;
+    padding: 0px;
+  }
 
- .asaid-wrap {
-   padding: 20px;
- }
+  .asaid-wrap {
+    padding: 27px 20px;
+  }
 
- .book-image {
-   max-width: 180px;
-   margin-bottom: 10px;
- }
+  .book-image {
+    max-width: 180px;
+    height: 192px;
+    margin-bottom: 10px;
+  }
 
- .asaid-button-wrap> :first-child {
-   margin-bottom: 4px;
- }
+  .asaid-button-link-wrap {
+    box-sizing: content-box;
+  }
 
- .info-wrap {
-   padding: 20px;
- }
+  .add-bookmark-button {
+    border-radius: 4px;
+    border: 1px solid #000000;
+    background-color: #EFEFEF;
+    font-size: 0.875em;
+    display: grid;
+    grid-template-columns: 40px auto;
+    align-items: center;
+    text-align: start;
+    cursor: pointer;
+    padding: 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    transition: ease .2s;
+  }
 
- .field-description {
-   margin-bottom: 20px;
- }
+  .add-bookmark-button:hover {
+    background-color: #e6e6e6;
+  }
 
- .fields-wrap {
-   padding: 10px 5px;
-   display: grid;
-   grid-template-columns: 50% auto;
- }
+  .add-bookmark-button-icon {
+    height: 36px;
+    width: 36px;
+  }
+
+  .info-wrap {
+    padding: 20px;
+  }
+
+  .field-description {
+    margin-bottom: 20px;
+    font-size: 0.875em;
+  }
+
+  .fields-wrap {
+    padding: 10px 5px;
+    display: grid;
+    grid-template-columns: 50% auto;
+  }
 </style>

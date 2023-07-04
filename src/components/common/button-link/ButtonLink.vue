@@ -2,7 +2,6 @@
 interface IProps {
   text: string;
   link: string;
-  icon?: any;
   variant?: VariantType;
   fullWidth?: boolean;
   target?: string
@@ -18,19 +17,12 @@ withDefaults(defineProps<IProps>(), {
 
 <template>
   <a :href="link" :style="style" @mouseenter="hover = true" @mouseleave="hover = false" target=target>
-    {{
-      (icon && icon)
-    }}
-      <!-- <previewIcon /> -->
-    {{
-      text
-    }}
+    {{ text }}
   </a>
 </template> 
 
 
 <script lang="ts">
-import previewIcon from '../../../assets/previewIcon.svg';
 const enum VariantType {
   Container = 'container',
   Text = 'text',
@@ -39,7 +31,6 @@ const enum VariantType {
 
 export default {
   name: 'ButtonLink',
-  // components: { previewIcon },
   data() {
     return {
       hover: false,
@@ -56,7 +47,7 @@ export default {
         }),
         ...(this.variant === VariantType.Text && {
           color: '#00695f',
-          ...(this.hover && { backgroundColor: '#e0f2f1' })
+          ...(this.hover && { backgroundColor: '#e0f2f1' }),
         }),
         ...(this.variant === VariantType.Outline && {
           color: '#00695f',
@@ -64,7 +55,7 @@ export default {
           ...(this.hover && { backgroundColor: '#009688' })
         })
       };
-    }
+    },
   }
 }
 </script>
@@ -72,10 +63,11 @@ export default {
 <style scoped> a {
    text-transform: uppercase;
    padding: 10px 8px;
-   display: inline-block;
+   display: block;
    text-decoration: none;
    border-radius: 4px;
    transition: ease .2s;
    font-size: 0.875em;
+   box-sizing: border-box;
  }
 </style>
