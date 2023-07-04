@@ -6,6 +6,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/book-catalog-vue-js/',
   plugins: [vue(), vueJsx()],
   resolve: {
     alias: {
