@@ -2,6 +2,7 @@
 import { getBooks } from '@/api/books-service';
 import { debounce } from '@/utils/debounce';
 import BookSearchList from './BookSearchList.vue';
+import Pagination from '@/components/common/pagination/Pagination.vue';
 import type { IApiGetBooks } from '@/api/books-service.types';
 </script> 
 
@@ -9,7 +10,7 @@ import type { IApiGetBooks } from '@/api/books-service.types';
 <template>
   <div class="toolbar">
     <div class="search-wrap">
-      <input type="text" v-model="keyword" autofocus  placeholder="Search..." class="search-input" required>
+      <input type="text" v-model="keyword" autofocus placeholder="Search..." class="search-input" required>
     </div>
     <div>
       <label for="order">Order by</label>&nbsp;
@@ -21,6 +22,7 @@ import type { IApiGetBooks } from '@/api/books-service.types';
   </div>
 
   <BookSearchList :books=books />
+  <Pagination :totalPages="10" :perPage="10" :currentPage="currentPage" @pagechanged="onPageChange" />
 </template>
 
 
@@ -29,10 +31,11 @@ export default {
   name: 'BookSearch',
   data() {
     return {
+      currentPage: 1,
       books: undefined as IApiGetBooks | undefined,
       keyword: '',
-      orderBy: 'newest',
-      maxResults: '500',
+      orderBy: 'relevance',
+      maxResults: 10,
       loadState: ''
     }
   },
@@ -42,9 +45,13 @@ export default {
     }, 500)
   },
   methods: {
+    onPageChange(page: any) {
+      console.log(page)
+      this.currentPage = page;
+    },
     search() {
       this.loadState = 'loading'
-      getBooks(this.keyword)
+      getBooks(this.keyword, this.maxResults, this.orderBy)
         .then((response) => {
           this.books = response
           this.loadState = 'success'
