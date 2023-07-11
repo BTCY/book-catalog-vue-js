@@ -15,13 +15,16 @@ const key = "AIzaSyB7fcxmsckIlWDr67JBMLTW3A8Sz0Wrgy4"
  */
 export const getBooks = (
     q: string,
+    maxResults: number = 10,
+    orderBy: string = "relevance",
 ): Promise<IApiGetBooks> =>
     axios.get<IApiGetBooks>(
         "https://www.googleapis.com/books/v1/volumes", {
         params: {
             q,
             key,
-            maxResults: "40"
+            maxResults,
+            orderBy
         }
     })
         .then(res => res.data)
