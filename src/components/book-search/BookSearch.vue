@@ -48,15 +48,21 @@ export default {
     onPageChange(page: any) {
       console.log(page)
       this.currentPage = page;
+      this.search();
+      window.scrollTo(0,0);
     },
     search() {
       this.loadState = 'loading'
-      getBooks(this.keyword, this.maxResults, this.orderBy)
-        .then((response) => {
-          this.books = response
-          this.loadState = 'success'
-          console.log(response)
-        })
+      getBooks(
+        this.keyword,
+        this.maxResults,
+        this.orderBy,
+        (this.currentPage - 1) * this.maxResults
+      ).then((response) => {
+        this.books = response
+        this.loadState = 'success'
+        console.log(response)
+      })
         .catch((error) => console.log(error))
     }
   }

@@ -17,6 +17,7 @@ export const getBooks = (
     q: string,
     maxResults: number = 10,
     orderBy: string = "relevance",
+    startIndex: number = 0,
 ): Promise<IApiGetBooks> =>
     axios.get<IApiGetBooks>(
         "https://www.googleapis.com/books/v1/volumes", {
@@ -24,7 +25,8 @@ export const getBooks = (
             q,
             key,
             maxResults,
-            orderBy
+            orderBy,
+            startIndex
         }
     })
         .then(res => res.data)
