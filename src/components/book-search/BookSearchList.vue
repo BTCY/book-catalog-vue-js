@@ -2,13 +2,15 @@
 import type { IApiGetBooks } from '@/api/books-service.types';
 
 defineProps<{
-  books: IApiGetBooks | undefined
+  books: IApiGetBooks | undefined,
+  loadState: string,
+  totalItems: number | undefined
 }>()
 </script> 
 
 
 <template>
-  <ul v-if="books?.items && books?.items?.length > 0">
+  <ul v-if="loadState === 'success' && books?.items && books?.items?.length > 0">
     <li v-for="book in books.items" :key="book.id">
       <h3>{{ book.volumeInfo?.title }}</h3>
       <div class="book-content-wrap">
@@ -26,6 +28,18 @@ defineProps<{
       </div>
     </li>
   </ul>
+
+  <ul v-if="loadState === 'loading'">
+    <li v-for="i in  Array(12).fill(0)" :key="i"> </li>
+  </ul>
+
+  <div class="no-found" v-if="loadState === 'success' && totalItems === undefined">
+    No results found
+  </div>
+
+  <div class="error" v-if="loadState === 'error'">
+    Error
+  </div>
 </template> 
 
 
@@ -42,7 +56,7 @@ export default {
  }
 
  li {
-   min-height: 250px;
+   height: 250px;
    padding: 20px;
    margin-bottom: 30px;
    background-color: #ffffff;
@@ -71,5 +85,16 @@ export default {
  .book-thumbnail {
    top: 10px;
    left: 0px;
+ }
+
+ .no-found {
+   text-align: center;
+   font-size: 2em;
+ }
+
+ .error {
+   text-align: center;
+   font-size: 2em;
+   color: tomato;
  }
 </style>
