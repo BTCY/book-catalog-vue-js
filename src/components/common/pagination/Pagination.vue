@@ -14,7 +14,7 @@
 
     <!-- Visible Buttons Start -->
 
-    <li v-for="page in pages" :key="page" class="pagination-item">
+    <li v-for="page in pages" :key="page.name" class="pagination-item">
       <button type="button" @click="onClickPage(page.name)" :disabled="page.isDisabled"
         :class="{ active: isPageActive(page.name) }">
         {{ page.name }}
@@ -37,7 +37,7 @@
   </ul>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'PaginationComponent',
   template: '#pagination',
@@ -102,7 +102,7 @@ export default {
     onClickPreviousPage() {
       this.$emit('pagechanged', this.currentPage - 1);
     },
-    onClickPage(page) {
+    onClickPage(page: number) {
       this.$emit('pagechanged', page);
     },
     onClickNextPage() {
@@ -111,7 +111,7 @@ export default {
     onClickLastPage() {
       this.$emit('pagechanged', this.totalPages);
     },
-    isPageActive(page) {
+    isPageActive(page: number) {
       return this.currentPage === page;
     },
   }
