@@ -1,9 +1,24 @@
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue';
 import { getBooks } from '@/api/books-service';
 import { debounce } from '@/utils/debounce';
 import BookSearchList from './BookSearchList.vue';
 import Pagination from '@/components/common/pagination/Pagination.vue';
-import type { IApiGetBooks } from '@/api/books-service.types';
+import type { IApiGetBooks, IApiGetBooksItem } from '@/api/books-service.types';
+// onMounted(function () {
+//   window.addEventListener("scroll", handleScroll)
+// })
+
+// onUnmounted(function () {
+//   window.removeEventListener("scroll", handleScroll)
+// })
+
+// function handleScroll(e: any) {
+//   let element = scrollComponent.value
+//   if (element && element.getBoundingClientRect().bottom < window.innerHeight) {
+//     this.search()
+//   }
+// }  
 </script> 
 
 
@@ -40,7 +55,9 @@ import type { IApiGetBooks } from '@/api/books-service.types';
     </div>
   </div>
 
-  <BookSearchList :books=books :loadState=loadState :totalItems=totalItems />
+  <div class="scrolling-component" id="theList" ref="scrollComponent">
+    <BookSearchList :books=books :loadState=loadState :totalItems=totalItems />
+  </div>
 
   <Pagination v-if="totalItems && totalPages && totalItems > 0" :totalPages=totalPages :perPage=maxResults
     :currentPage="currentPage" @pagechanged="onPageChange" />
@@ -48,12 +65,14 @@ import type { IApiGetBooks } from '@/api/books-service.types';
 
 
 <script lang="ts">
+
+const scrollComponent = ref<HTMLInputElement | null>(null);
 export default {
   name: 'BookSearch',
   data() {
     return {
       currentPage: 1,
-      books: undefined as IApiGetBooks | undefined,
+      books: [] as IApiGetBooksItem[] | [],
       keyword: '',
       orderBy: 'relevance',
       searchIn: 'intitle',
@@ -68,7 +87,21 @@ export default {
       this.search()
     }, 500)
   },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  unmounted() {
+    window.removeEventListener("scroll", this.handleScroll);
+  },
   methods: {
+    handleScroll() {
+      if (this.loadState === 'loading') return;
+
+      let element = scrollComponent.value
+      if (element && element.getBoundingClientRect().bottom < window.innerHeight) {
+        this.search()
+      }
+    },
     onPageChange(page: any) {
       console.log(page)
       this.currentPage = page;
@@ -76,26 +109,30 @@ export default {
       window.scrollTo(0, 0);
     },
     search() {
+      console.log(1)
       this.loadState = 'loading'
       getBooks(
         this.searchIn === '' ? this.keyword : `${this.searchIn}:${this.keyword}`,
         this.maxResults,
         this.orderBy,
         (this.currentPage - 1) * this.maxResults
-      ).then((response) => {
-        this.books = response
-        this.totalItems = response?.totalItems ? response?.totalItems : undefined
-        this.totalPages = response?.totalItems ? Math.floor(response.totalItems / this.maxResults) : undefined
-        this.loadState = 'success'
-        console.log(response)
-      })
-        .catch((error) => {
+      ).then(
+        (response) => {
+          this.books.push(...response?.items || []) || undefined;
+          this.totalItems = response?.totalItems ? response?.totalItems : undefined
+          this.totalPages = response?.totalItems ? Math.floor(response.totalItems / this.maxResults) : undefined
+          this.loadState = 'success'
+          console.log(this.books)
+        }
+      ).catch(
+        (error) => {
           console.log(error);
           this.books = undefined;
           this.totalItems = undefined;
           this.totalPages = undefined;
           this.loadState = 'error';
-        })
+        }
+      )
     }
   }
 }

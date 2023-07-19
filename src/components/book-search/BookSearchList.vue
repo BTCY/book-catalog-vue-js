@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { IApiGetBooks } from '@/api/books-service.types';
+import type { IApiGetBooksItem } from '@/api/books-service.types';
 
 defineProps<{
-  books: IApiGetBooks | undefined,
+  books: IApiGetBooksItem[] | undefined,
   loadState: string,
   totalItems: number | undefined
 }>()
@@ -10,8 +10,8 @@ defineProps<{
 
 
 <template>
-  <ul v-if="loadState === 'success' && books?.items && books?.items?.length > 0">
-    <li v-for="book in books.items" :key="book.id">
+  <ul v-if="loadState === 'success' && books && books?.length > 0">
+    <li v-for="book in books" :key="book.id">
       <h3>{{ book.volumeInfo?.title }}</h3>
       <div class="book-content-wrap">
 
