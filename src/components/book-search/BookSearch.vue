@@ -53,14 +53,21 @@ import type { IApiGetBooks, IApiGetBooksItem } from '@/api/books-service.types';
         <option value="">All</option>
       </select>
     </div>
+    <div>
+      <label for="showResults">Show results</label>&nbsp;
+      <select name="showResults" v-model="showResults" @change="search">
+        <option value="page">Page by page</option>
+        <option value="scroll">Infinite scroll</option>
+      </select>
+    </div>
   </div>
 
   <div class="scrolling-component" id="theList" ref="scrollComponent">
     <BookSearchList :books=books :loadState=loadState :totalItems=totalItems />
   </div>
 
-  <Pagination v-if="totalItems && totalPages && totalItems > 0" :totalPages=totalPages :perPage=maxResults
-    :currentPage="currentPage" @pagechanged="onPageChange" />
+  <Pagination v-if="showResults === 'page' && totalItems && totalPages && totalItems > 0" :totalPages=totalPages
+    :perPage=maxResults :currentPage="currentPage" @pagechanged="onPageChange" />
 </template>
 
 
@@ -76,6 +83,7 @@ export default {
       keyword: '',
       orderBy: 'relevance',
       searchIn: 'intitle',
+      showResults: 'page',
       maxResults: 10,
       loadState: '',
       totalItems: undefined,
@@ -95,7 +103,7 @@ export default {
   },
   methods: {
     handleScroll() {
-      if (this.loadState === 'loading') return;
+      if (this.loadState === 'loading' || this.showResults === 'page') return;
 
       let element = scrollComponent.value
       if (element && element.getBoundingClientRect().bottom < window.innerHeight) {
@@ -109,8 +117,11 @@ export default {
       window.scrollTo(0, 0);
     },
     search() {
-      console.log(1)
-      this.loadState = 'loading'
+      if (this.keyword.trim() === '') return;
+
+      if (this.showResults === 'scroll') {
+        this.currentPage++;
+      }
       getBooks(
         this.searchIn === '' ? this.keyword : `${this.searchIn}:${this.keyword}`,
         this.maxResults,
@@ -118,7 +129,9 @@ export default {
         (this.currentPage - 1) * this.maxResults
       ).then(
         (response) => {
-          this.books.push(...response?.items || []) || undefined;
+          this.showResults === 'scroll'
+            ? this.books.push(...response?.items || []) || undefined
+            : this.books = response?.items || [];
           this.totalItems = response?.totalItems ? response?.totalItems : undefined
           this.totalPages = response?.totalItems ? Math.floor(response.totalItems / this.maxResults) : undefined
           this.loadState = 'success'
