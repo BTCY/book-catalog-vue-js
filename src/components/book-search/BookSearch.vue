@@ -1,24 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 import { getBooks } from '@/api/books-service';
 import { debounce } from '@/utils/debounce';
 import BookSearchList from './BookSearchList.vue';
 import Pagination from '@/components/common/pagination/Pagination.vue';
-import type { IApiGetBooks, IApiGetBooksItem } from '@/api/books-service.types';
-// onMounted(function () {
-//   window.addEventListener("scroll", handleScroll)
-// })
-
-// onUnmounted(function () {
-//   window.removeEventListener("scroll", handleScroll)
-// })
-
-// function handleScroll(e: any) {
-//   let element = scrollComponent.value
-//   if (element && element.getBoundingClientRect().bottom < window.innerHeight) {
-//     this.search()
-//   }
-// }  
+import type { IApiGetBooksItem } from '@/api/books-service.types';  
 </script> 
 
 
@@ -29,14 +15,14 @@ import type { IApiGetBooks, IApiGetBooksItem } from '@/api/books-service.types';
     </div>
     <div>
       <label for="order">Order by</label>&nbsp;
-      <select name="order" v-model="orderBy" @change="search">
+      <select name="order" v-model="orderBy" @change="onOrderByChange">
         <option value="newest">newest</option>
         <option value="relevance">relevance</option>
       </select>
     </div>
     <div>
       <label for="maxResults">Max results</label>&nbsp;
-      <select name="maxResults" v-model="maxResults" @change="search">
+      <select name="maxResults" v-model="maxResults" @change="onMaxResultsChange">
         <option value="10">10</option>
         <option value="20">20</option>
         <option value="30">30</option>
@@ -45,7 +31,7 @@ import type { IApiGetBooks, IApiGetBooksItem } from '@/api/books-service.types';
     </div>
     <div>
       <label for="searchIn">Search in</label>&nbsp;
-      <select name="searchIn" v-model="searchIn" @change="search">
+      <select name="searchIn" v-model="searchIn" @change="onSearchInChange">
         <option value="intitle">Title</option>
         <option value="inauthor">Author</option>
         <option value="inpublisher">Publisher</option>
@@ -55,7 +41,7 @@ import type { IApiGetBooks, IApiGetBooksItem } from '@/api/books-service.types';
     </div>
     <div>
       <label for="showResults">Show results</label>&nbsp;
-      <select name="showResults" v-model="showResults" @change="handleShowResultsOnChange">
+      <select name="showResults" v-model="showResults" @change="onShowResultsChange">
         <option value="page">Page by page</option>
         <option value="scroll">Infinite scroll</option>
       </select>
@@ -63,7 +49,8 @@ import type { IApiGetBooks, IApiGetBooksItem } from '@/api/books-service.types';
   </div>
 
   <div class="scrolling-component" id="theList" ref="scrollComponent">
-    <BookSearchList :books=books :loadState=loadState :totalItems=totalItems />
+    <BookSearchList :books=books :loadState=loadState :totalItems=totalItems :showResults=showResults
+      :isHasNextPage=isHasNextPage />
   </div>
 
   <Pagination v-if="showResults === 'page' && totalItems && totalPages && totalItems > 0" :totalPages=totalPages
@@ -87,11 +74,15 @@ export default {
       maxResults: 10,
       loadState: '',
       totalItems: undefined,
-      totalPages: undefined
+      totalPages: undefined,
+      isHasNextPage: true,
     }
   },
   watch: {
     keyword: debounce(function () {
+      this.currentPage = 1;
+      this.isHasNextPage = true;
+      this.books = [];
       this.search()
     }, 500)
   },
@@ -102,20 +93,43 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
-    handleShowResultsOnChange() {
+    onShowResultsChange() {
       this.currentPage = 1;
+      this.isHasNextPage = true;
+      this.books = [];
+      this.search();
+    },
+    onOrderByChange() {
+      this.currentPage = 1;
+      this.isHasNextPage = true;
+      this.books = [];
+      this.search();
+    },
+    onMaxResultsChange() {
+      this.currentPage = 1;
+      this.isHasNextPage = true;
+      this.books = [];
+      this.search();
+    },
+    onSearchInChange() {
+      this.currentPage = 1;
+      this.isHasNextPage = true;
+      this.books = [];
       this.search();
     },
     handleScroll() {
       if (this.loadState === 'loading' || this.showResults === 'page') return;
-      console.log(1)
+
       let element = scrollComponent.value
-      if (element && element.getBoundingClientRect().bottom < window.innerHeight) {
-        this.search()
+      if (element && element.getBoundingClientRect().bottom < window.innerHeight + 600) {
+        this.isHasNextPage = this.maxResults * (this.currentPage) <= this.totalItems
+        if (this.isHasNextPage) {
+          this.currentPage++;
+          this.search();
+        }
       }
     },
     onPageChange(page: any) {
-      console.log(page)
       this.currentPage = page;
       this.search();
       window.scrollTo(0, 0);
@@ -123,9 +137,6 @@ export default {
     search() {
       if (this.keyword.trim() === '') return;
 
-      if (this.showResults === 'scroll') {
-        this.currentPage++;
-      }
       this.loadState = 'loading';
       getBooks(
         this.searchIn === '' ? this.keyword : `${this.searchIn}:${this.keyword}`,
@@ -138,9 +149,8 @@ export default {
             ? this.books.push(...response?.items || []) || undefined
             : this.books = response?.items || [];
           this.totalItems = response?.totalItems ? response?.totalItems : undefined
-          this.totalPages = response?.totalItems ? Math.floor(response.totalItems / this.maxResults) : undefined
-          this.loadState = 'success'
-          console.log(this.books)
+          this.totalPages = response?.totalItems ? Math.ceil(response.totalItems / this.maxResults) : undefined
+          this.loadState = 'success';
         }
       ).catch(
         (error) => {
