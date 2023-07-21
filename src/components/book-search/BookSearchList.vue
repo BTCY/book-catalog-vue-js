@@ -4,13 +4,16 @@ import type { IApiGetBooksItem } from '@/api/books-service.types';
 defineProps<{
   books: IApiGetBooksItem[] | undefined,
   loadState: string,
-  totalItems: number | undefined
-}>()
+  totalItems: number | undefined,
+  showResults: string,
+  isHasNextPage: boolean,
+}>() 
 </script> 
 
 
 <template>
-  <ul v-if="loadState === 'success' && books && books?.length > 0">
+  <ul
+    v-if="((loadState === 'success' && showResults === 'page') || showResults === 'scroll') && books && books.length > 0">
     <li v-for="book in books" :key="book.id">
       <h3>{{ book.volumeInfo?.title }}</h3>
       <div class="book-content-wrap">
@@ -34,6 +37,10 @@ defineProps<{
   <ul v-if="loadState === 'loading'">
     <li v-for="i in  Array(12).fill(0)" :key="i"> </li>
   </ul>
+
+  <div class="end-of-list" v-if="showResults === 'scroll' && loadState === 'success' && isHasNextPage === false">
+    End of list
+  </div>
 
   <div class="no-found" v-if="loadState === 'success' && totalItems === undefined">
     No results found
@@ -103,6 +110,12 @@ export default {
  .book-thumbnail {
    top: 10px;
    left: 0px;
+ }
+
+ .end-of-list {
+   text-align: center;
+   font-size: 1em;
+   color: #999999;
  }
 
  .no-found {
