@@ -13,11 +13,6 @@ import ButtonLink from '../common/button-link/ButtonLink.vue';
       <div class="asaid-wrap">
         <img class="book-image" :src=book?.image>
 
-        <button class="add-bookmark-button">
-          <img alt="logo" class="add-bookmark-button-icon" src="@/assets/bookmark.svg" />
-          <span>Add to bookmarks</span>
-        </button>
-
         <div class="asaid-button-link-wrap">
           <ButtonLink v-if=book.canonicalVolumeLink.value :text=book.canonicalVolumeLink.title
             :link=book.canonicalVolumeLink.value />
@@ -169,32 +164,6 @@ export default {
 
   .asaid-button-link-wrap {
     box-sizing: content-box;
-  }
-
-  .add-bookmark-button {
-    border-radius: 4px;
-    border: 1px solid #000000;
-    background-color: #EFEFEF;
-    font-size: 0.875em;
-    display: grid;
-    grid-template-columns: 40px auto;
-    align-items: center;
-    text-align: start;
-    cursor: pointer;
-    padding: 0px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 100%;
-    transition: ease .2s;
-  }
-
-  .add-bookmark-button:hover {
-    background-color: #e6e6e6;
-  }
-
-  .add-bookmark-button-icon {
-    height: 36px;
-    width: 36px;
   }
 
   .info-wrap {
