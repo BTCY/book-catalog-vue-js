@@ -55,7 +55,7 @@ import type { IApiGetBooks, IApiGetBooksItem } from '@/api/books-service.types';
     </div>
     <div>
       <label for="showResults">Show results</label>&nbsp;
-      <select name="showResults" v-model="showResults" @change="search">
+      <select name="showResults" v-model="showResults" @change="handleShowResultsOnChange">
         <option value="page">Page by page</option>
         <option value="scroll">Infinite scroll</option>
       </select>
@@ -102,9 +102,13 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
+    handleShowResultsOnChange() {
+      this.currentPage = 1;
+      this.search();
+    },
     handleScroll() {
       if (this.loadState === 'loading' || this.showResults === 'page') return;
-
+      console.log(1)
       let element = scrollComponent.value
       if (element && element.getBoundingClientRect().bottom < window.innerHeight) {
         this.search()
@@ -122,6 +126,7 @@ export default {
       if (this.showResults === 'scroll') {
         this.currentPage++;
       }
+      this.loadState = 'loading';
       getBooks(
         this.searchIn === '' ? this.keyword : `${this.searchIn}:${this.keyword}`,
         this.maxResults,
