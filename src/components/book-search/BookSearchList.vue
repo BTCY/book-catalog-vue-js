@@ -19,10 +19,12 @@ defineProps<{
           <img class="book-thumbnail" :src=book.volumeInfo?.imageLinks?.thumbnail>
         </div>
 
-        <div class="text-wrap">
-          {{ book.volumeInfo?.description }}
-          <br />
-          <RouterLink :to="{ name: 'book', params: { bookId: book.id } }">More</RouterLink>
+        <div class="info-wrap">
+          <p class="info-description">{{ book.volumeInfo?.description }}</p>
+
+          <div class="info-footer">
+            <RouterLink :to="{ name: 'book', params: { bookId: book.id } }">More</RouterLink>
+          </div>
         </div>
 
       </div>
@@ -67,6 +69,12 @@ export default {
  h3 {
    font-size: 1.5em;
    margin: 0px 0px 20px;
+   line-height: 1.5em;
+   width: 100%;
+   overflow: hidden;
+   display: -webkit-box;
+   -webkit-line-clamp: 1;
+   -webkit-box-orient: vertical;
  }
 
  .book-content-wrap {
@@ -78,8 +86,18 @@ export default {
    display: inline-block;
  }
 
- .text-wrap {
+ .info-wrap {
    display: inline-block;
+ }
+
+ .info-description {
+   width: 100%;
+   overflow: hidden;
+   display: -webkit-box;
+   -webkit-line-clamp: 9;
+   -webkit-box-orient: vertical;
+   margin: 0px;
+   font-size: 0.875em;
  }
 
  .book-thumbnail {
