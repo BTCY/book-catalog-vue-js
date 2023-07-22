@@ -18,7 +18,7 @@
    background-color: #fbfbfb;
    box-sizing: border-box;
    font-size: 16px;
-   padding: 0px 20px 90px;
+   padding: 0px 20px 0px;
  }
 
  .container-in {
@@ -27,7 +27,7 @@
    box-sizing: border-box;
    max-width: 900px;
    margin: 0 auto;
-   padding-bottom: 20px;
+   padding-bottom: 90px;
  }
 </style>
 
