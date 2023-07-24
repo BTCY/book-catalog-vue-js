@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { getBooks } from '@/api/books-service';
 import { debounce } from '@/utils/debounce';
+import BookSearchToolbar from './BookSearchToolbar.vue';
 import BookSearchList from './BookSearchList.vue';
 import Pagination from '@/components/common/pagination/Pagination.vue';
 import type { IApiGetBooksItem } from '@/api/books-service.types';  
@@ -9,44 +10,8 @@ import type { IApiGetBooksItem } from '@/api/books-service.types';
 
 
 <template>
-  <div class="toolbar">
-    <div class="search-wrap">
-      <input type="text" v-model="keyword" autofocus placeholder="Search..." class="search-input" required>
-    </div>
-    <div>
-      <label for="order">Order by</label>&nbsp;
-      <select name="order" v-model="orderBy" @change="onOrderByChange">
-        <option value="newest">newest</option>
-        <option value="relevance">relevance</option>
-      </select>
-    </div>
-    <div>
-      <label for="maxResults">Max results</label>&nbsp;
-      <select name="maxResults" v-model="maxResults" @change="onMaxResultsChange">
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="30">30</option>
-        <option value="40">40</option>
-      </select>
-    </div>
-    <div>
-      <label for="searchIn">Search in</label>&nbsp;
-      <select name="searchIn" v-model="searchIn" @change="onSearchInChange">
-        <option value="intitle">Title</option>
-        <option value="inauthor">Author</option>
-        <option value="inpublisher">Publisher</option>
-        <option value="subject">Subject</option>
-        <option value="">All</option>
-      </select>
-    </div>
-    <div>
-      <label for="showResults">Show results</label>&nbsp;
-      <select name="showResults" v-model="showResults" @change="onShowResultsChange">
-        <option value="page">Page by page</option>
-        <option value="scroll">Infinite scroll</option>
-      </select>
-    </div>
-  </div>
+  <BookSearchToolbar :keyword=keyword :orderBy=orderBy :searchIn=searchIn :showResults=showResults :maxResults=maxResults
+    @searchparamchange="onSearchParamChange" />
 
   <div class="scrolling-component" id="theList" ref="scrollComponent">
     <BookSearchList :books=books :loadState=loadState :totalItems=totalItems :showResults=showResults
@@ -80,9 +45,6 @@ export default {
   },
   watch: {
     keyword: debounce(function () {
-      this.currentPage = 1;
-      this.isHasNextPage = true;
-      this.books = [];
       this.search()
     }, 500)
   },
@@ -93,30 +55,6 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
-    onShowResultsChange() {
-      this.currentPage = 1;
-      this.isHasNextPage = true;
-      this.books = [];
-      this.search();
-    },
-    onOrderByChange() {
-      this.currentPage = 1;
-      this.isHasNextPage = true;
-      this.books = [];
-      this.search();
-    },
-    onMaxResultsChange() {
-      this.currentPage = 1;
-      this.isHasNextPage = true;
-      this.books = [];
-      this.search();
-    },
-    onSearchInChange() {
-      this.currentPage = 1;
-      this.isHasNextPage = true;
-      this.books = [];
-      this.search();
-    },
     handleScroll() {
       if (this.loadState === 'loading' || this.showResults === 'page') return;
 
@@ -132,6 +70,16 @@ export default {
     onPageChange(page: any) {
       this.currentPage = page;
       this.search();
+      window.scrollTo(0, 0);
+    },
+    onSearchParamChange(field: string, value: any) {
+      this[field] = value;
+      this.currentPage = 1;
+      this.isHasNextPage = true;
+      this.books = [];
+      if (field !== 'keyword') {
+        this.search();
+      }
       window.scrollTo(0, 0);
     },
     search() {
@@ -164,34 +112,4 @@ export default {
     }
   }
 }
-</script>
-
-
-<style scoped>
-.toolbar {
-  width: 100%;
-  display: grid;
-  justify-content: center;
-  grid-template-columns: 47%;
-  margin-top: 50px;
-  margin-bottom: 50px;
-}
-
-.search-wrap {
-  margin-bottom: 10px;
-  width: 100%;
-}
-
-.search-input {
-  display: inline-block;
-  border: none;
-  background-color: #fbfbfb;
-  border-bottom: 3px solid #b71c1c;
-  width: 100%;
-  font-size: 2em;
-}
-
-.search-input:focus {
-  outline: none;
-}
-</style>
+</script> 

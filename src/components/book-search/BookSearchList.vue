@@ -56,7 +56,7 @@ defineProps<{
 export default {
   name: 'BookSearchList'
 }
-</script>
+</script> 
 
 
 <style scoped> ul {
