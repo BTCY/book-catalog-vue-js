@@ -3,38 +3,40 @@
     <div class="search-wrap">
       <input type="text" v-model="keywordLocal" autofocus placeholder="Search..." class="search-input" required>
     </div>
-    <div>
-      <label for="order">Order by</label>&nbsp;
-      <select name="order" v-model="orderByLocal">
-        <option value="newest">newest</option>
-        <option value="relevance">relevance</option>
-      </select>
-    </div>
-    <div>
-      <label for="maxResults">Max results</label>&nbsp;
-      <select name="maxResults" v-model="maxResultsLocal">
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="30">30</option>
-        <option value="40">40</option>
-      </select>
-    </div>
-    <div>
-      <label for="searchIn">Search in</label>&nbsp;
-      <select name="searchIn" v-model="searchInLocal">
-        <option value="intitle">Title</option>
-        <option value="inauthor">Author</option>
-        <option value="inpublisher">Publisher</option>
-        <option value="subject">Subject</option>
-        <option value="">All</option>
-      </select>
-    </div>
-    <div>
-      <label for="showResults">Show results</label>&nbsp;
-      <select name="showResults" v-model="showResultsLocal">
-        <option value="page">Page by page</option>
-        <option value="scroll">Infinite scroll</option>
-      </select>
+    <div class="params-wrap">
+      <div class="param">
+        <label for="order" class="param-label">Order by</label>&nbsp;
+        <select name="order" v-model="orderByLocal" class="param-select">
+          <option value="newest">newest</option>
+          <option value="relevance">relevance</option>
+        </select>
+      </div>
+      <div class="param">
+        <label for="maxResults" class="param-label">Max results</label>&nbsp;
+        <select name="maxResults" v-model="maxResultsLocal" class="param-select">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+        </select>
+      </div>
+      <div class="param">
+        <label for="searchIn" class="param-label">Search in</label>&nbsp;
+        <select name="searchIn" v-model="searchInLocal" class="param-select">
+          <option value="intitle">title</option>
+          <option value="inauthor">author</option>
+          <option value="inpublisher">publisher</option>
+          <option value="subject">subject</option>
+          <option value="">all</option>
+        </select>
+      </div>
+      <div class="param">
+        <label for="showResults" class="param-label">Show results</label>&nbsp;
+        <select name="showResults" v-model="showResultsLocal" class="param-select">
+          <option value="page">page by page</option>
+          <option value="scroll">infinite scroll</option>
+        </select>
+      </div>
     </div>
   </div>
 </template>
@@ -114,17 +116,16 @@ export default {
 
 <style scoped>
 .toolbar {
-  width: 100%;
   display: grid;
+  width: 100%;
   justify-content: center;
-  grid-template-columns: 47%;
   margin-top: 50px;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 .search-wrap {
-  margin-bottom: 10px;
   width: 100%;
+  margin-bottom: 30px;
 }
 
 .search-input {
@@ -138,5 +139,31 @@ export default {
 
 .search-input:focus {
   outline: none;
+}
+
+.params-wrap {}
+
+.param {
+  display: inline-block;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.param-label {
+  font-size: 0.875em;
+  color: #616161;
+  /* text-transform: uppercase; */
+}
+
+.param-select {
+  font-size: 0.875em;
+  border: 0px;
+  border-bottom: 1px dashed #616161;
+  background-color: transparent;
+  font-weight: bold;
+}
+
+.param-select:hover {
+  cursor: pointer;
 }
 </style>

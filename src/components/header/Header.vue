@@ -63,8 +63,7 @@ export default {
  }
 
  .logo-text-end {
-   display: inline-block;
-   border-bottom: 3px solid #b71c1c;
+   display: inline-block; 
  }
 
  nav {
