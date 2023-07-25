@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { IApiGetBooksItem } from '@/api/books-service.types';
-
 defineProps<{
   books: IApiGetBooksItem[] | undefined,
   loadState: string,
@@ -15,7 +14,6 @@ defineProps<{
   <ul
     v-if="((loadState === 'success' && showResults === 'page') || showResults === 'scroll') && books && books.length > 0">
     <li v-for="book in books" :key="book.id">
-      <h3>{{ book.volumeInfo?.title }}</h3>
       <div class="book-content-wrap">
 
         <div class="thumbnail-wrap">
@@ -23,6 +21,11 @@ defineProps<{
         </div>
 
         <div class="info-wrap">
+          <h3 class="title">
+            <RouterLink :to="{ name: 'book', params: { bookId: book.id } }" class="title-link">
+              {{ book.volumeInfo?.title }}
+            </RouterLink>
+          </h3>
           <p class="info-description">{{ book.volumeInfo?.description }}</p>
 
           <div class="info-footer">
@@ -54,7 +57,8 @@ defineProps<{
 
 <script lang="ts">
 export default {
-  name: 'BookSearchList'
+  name: 'BookSearchList',
+  template: '#dookSearchList',
 }
 </script> 
 
@@ -65,23 +69,12 @@ export default {
  }
 
  li {
-   height: 250px;
+   height: 200px;
    padding: 20px;
    margin-bottom: 30px;
    background-color: #ffffff;
    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
    border-radius: 10px;
- }
-
- h3 {
-   font-size: 1.5em;
-   margin: 0px 0px 20px;
-   line-height: 1.5em;
-   width: 100%;
-   overflow: hidden;
-   display: -webkit-box;
-   -webkit-line-clamp: 1;
-   -webkit-box-orient: vertical;
  }
 
  .book-content-wrap {
@@ -93,23 +86,52 @@ export default {
    display: inline-block;
  }
 
+ .book-thumbnail {
+   height: auto;
+   max-height: 200px;
+   width: 100%;
+   max-width: 128px;
+   margin-top: 0px;
+   left: 0px;
+   border-radius: 4px;
+ }
+
  .info-wrap {
    display: inline-block;
  }
 
- .info-description {
+ .title {
+   font-size: 1.5em;
+   margin: -6px 0px 15px;
+   line-height: 1.5em;
    width: 100%;
    overflow: hidden;
    display: -webkit-box;
-   -webkit-line-clamp: 9;
+   -webkit-line-clamp: 1;
+   -webkit-box-orient: vertical;
+ }
+
+ .title-link {
+   color: #000000;
+   text-decoration: none;
+   transition: all 250ms ease;
+ }
+
+ .title-link:hover {
+   color: #0000b3;
+   text-decoration: none;
+ }
+
+ .info-description {
+   width: 100%;
+   line-height: 1.2em;
+   color: #616161;
+   overflow: hidden;
+   display: -webkit-box;
+   -webkit-line-clamp: 6;
    -webkit-box-orient: vertical;
    margin: 0px;
    font-size: 0.875em;
- }
-
- .book-thumbnail {
-   top: 10px;
-   left: 0px;
  }
 
  .end-of-list {
