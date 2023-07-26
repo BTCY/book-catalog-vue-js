@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { getBooks } from '@/api/books-service';
-import { debounce } from '@/utils/debounce';
-import BookSearchToolbar from './BookSearchToolbar.vue';
-import BookSearchList from './BookSearchList.vue';
-import BookSearchPagination from './BookSearchPagination.vue';
-import type { IApiGetBooksItem } from '@/api/books-service.types';  
+import { ref } from "vue";
+import { getBooks } from "@/api/books-service";
+import { debounce } from "@/utils/debounce";
+import type { IApiGetBooksItem } from "@/api/books-service.types";
+import BookSearchToolbar from "./BookSearchToolbar.vue";
+import BookSearchList from "./BookSearchList.vue";
+import BookSearchPagination from "./BookSearchPagination.vue";
 </script> 
 
 
@@ -27,17 +27,17 @@ import type { IApiGetBooksItem } from '@/api/books-service.types';
 <script lang="ts">
 const scrollComponent = ref<HTMLInputElement | null>(null);
 export default {
-  name: 'BookSearch',
+  name: "BookSearch",
   data() {
     return {
       currentPage: 1,
       books: [] as IApiGetBooksItem[] | [],
-      keyword: '',
-      orderBy: 'relevance',
-      searchIn: 'intitle',
-      showResults: 'page',
+      keyword: "",
+      orderBy: "relevance",
+      searchIn: "intitle",
+      showResults: "page",
       maxResults: 10,
-      loadState: '',
+      loadState: "",
       totalItems: undefined,
       totalPages: undefined,
       isHasNextPage: true,
@@ -45,7 +45,7 @@ export default {
   },
   watch: {
     keyword: debounce(function () {
-      this.loadState = 'loading';
+      this.loadState = "loading";
       this.search()
     }, 500)
   },
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     handleScroll() {
-      if (this.loadState === 'loading' || this.showResults === 'page') return;
+      if (this.loadState === "loading" || this.showResults === "page") return;
 
       let element = scrollComponent.value
       if (element && element.getBoundingClientRect().bottom < window.innerHeight + 600) {
@@ -68,45 +68,45 @@ export default {
         }
       }
     },
-    onPageChange(page: any) {
+    onPageChange(page: number) {
       this.currentPage = page;
       this.search();
       window.scrollTo(0, 0);
     },
-    onSearchParamChange(field: string, value: any) {
+    onSearchParamChange(field: string, value: number | string) {
       this[field] = value;
       this.currentPage = 1;
       this.isHasNextPage = true;
-      if (field !== 'keyword') {
+      if (field !== "keyword") {
         this.books = [];
         this.search();
       }
-      if (field === 'keyword' && this.showResults === 'scroll') {
+      if (field === "keyword" && this.showResults === "scroll") {
         this.books = [];
         this.search();
       }
       window.scrollTo(0, 0);
     },
     search() {
-      if (this.keyword.trim() === '') {
-        this.loadState = '';
+      if (this.keyword.trim() === "") {
+        this.loadState = "";
         return
       };
 
-      this.loadState = 'loading';
+      this.loadState = "loading";
       getBooks(
-        this.searchIn === '' ? this.keyword : `${this.searchIn}:${this.keyword}`,
+        this.searchIn === "" ? this.keyword : `${this.searchIn}:${this.keyword}`,
         this.maxResults,
         this.orderBy,
         (this.currentPage - 1) * this.maxResults
       ).then(
         (response) => {
-          this.showResults === 'scroll'
+          this.showResults === "scroll"
             ? this.books.push(...response?.items || []) || undefined
             : this.books = response?.items || [];
           this.totalItems = response?.totalItems ? response?.totalItems : undefined
           this.totalPages = response?.totalItems ? Math.ceil(response.totalItems / this.maxResults) : undefined
-          this.loadState = 'success';
+          this.loadState = "success";
         }
       ).catch(
         (error) => {
@@ -114,7 +114,7 @@ export default {
           this.books = undefined;
           this.totalItems = undefined;
           this.totalPages = undefined;
-          this.loadState = 'error';
+          this.loadState = "error";
         }
       )
     }

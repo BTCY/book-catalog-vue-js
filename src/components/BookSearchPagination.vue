@@ -35,8 +35,8 @@
 
 <script lang="ts">
 export default {
-  name: 'BookSearchPagination',
-  template: '#bookSearchPagination',
+  name: "BookSearchPagination",
+  template: "#bookSearchPagination",
   props: {
     maxVisibleButtons: {
       type: Number,
@@ -93,19 +93,19 @@ export default {
   },
   methods: {
     onClickFirstPage() {
-      this.$emit('pagechanged', 1);
+      this.$emit("pagechanged", 1);
     },
     onClickPreviousPage() {
-      this.$emit('pagechanged', this.currentPage - 1);
+      this.$emit("pagechanged", this.currentPage - 1);
     },
     onClickPage(page: number) {
-      this.$emit('pagechanged', page);
+      this.$emit("pagechanged", page);
     },
     onClickNextPage() {
-      this.$emit('pagechanged', this.currentPage + 1);
+      this.$emit("pagechanged", this.currentPage + 1);
     },
     onClickLastPage() {
-      this.$emit('pagechanged', this.totalPages);
+      this.$emit("pagechanged", this.totalPages);
     },
     isPageActive(page: number) {
       return this.currentPage === page;
