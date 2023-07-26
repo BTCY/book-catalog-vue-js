@@ -5,7 +5,7 @@ defineProps<{
   searchIn: string;
   showResults: string;
   maxResults: number;
-}>() 
+}>();
 </script> 
 
 
@@ -63,15 +63,15 @@ defineProps<{
 
 <script lang="ts">
 export default {
-  name: 'BookSearchToolbar',
-  template: '#bookSearchToolbar',
+  name: "BookSearchToolbar",
+  template: "#bookSearchToolbar",
   computed: {
     keywordLocal: {
       get: function () {
         return this.keyword
       },
       set: function (value: any) {
-        this.$emit('searchparamchange', 'keyword', value)
+        this.$emit("searchparamchange", "keyword", value)
       }
     },
     orderByLocal: {
@@ -79,7 +79,7 @@ export default {
         return this.orderBy
       },
       set: function (value: any) {
-        this.$emit('searchparamchange', 'orderBy', value)
+        this.$emit("searchparamchange", "orderBy", value)
       }
     },
     maxResultsLocal: {
@@ -87,7 +87,7 @@ export default {
         return this.maxResults
       },
       set: function (value: any) {
-        this.$emit('searchparamchange', 'maxResults', Number(value))
+        this.$emit("searchparamchange", "maxResults", Number(value))
       }
     },
     searchInLocal: {
@@ -95,7 +95,7 @@ export default {
         return this.searchIn
       },
       set: function (value: any) {
-        this.$emit('searchparamchange', 'searchIn', value)
+        this.$emit("searchparamchange", "searchIn", value)
       }
     },
     showResultsLocal: {
@@ -103,7 +103,7 @@ export default {
         return this.showResults
       },
       set: function (value: any) {
-        this.$emit('searchparamchange', 'showResults', value)
+        this.$emit("searchparamchange", "showResults", value)
       }
     }
   },

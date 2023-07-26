@@ -1,19 +1,21 @@
 <script setup lang="ts">
-import type { IApiGetBooksItem } from '@/api/books-service.types';
-import DetailsField from '../common/details-field/DetailsField.vue';
+import type { IApiGetBooksItem } from "@/api/books-service.types";
+import DetailsField from "./DetailsField.vue";
+
 defineProps<{
   books: IApiGetBooksItem[] | undefined,
   loadState: string,
   totalItems: number | undefined,
   showResults: string,
   isHasNextPage: boolean,
-}>() 
+}>();
 </script> 
 
 
 <template>
   <ul
     v-if="((loadState === 'success' && showResults === 'page') || showResults === 'scroll') && books && books.length > 0">
+
     <li v-for="book in books" :key="book.id">
       <div class="book-content-wrap">
 
@@ -45,6 +47,7 @@ defineProps<{
 
       </div>
     </li>
+
   </ul>
 
   <ul v-if="loadState === 'loading'">
@@ -79,8 +82,8 @@ defineProps<{
 
 <script lang="ts">
 export default {
-  name: 'BookSearchList',
-  template: '#dookSearchList',
+  name: "BookSearchList",
+  template: "#dookSearchList",
 }
 </script> 
 

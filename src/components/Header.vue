@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router' 
+import { RouterLink } from "vue-router" 
 </script>  
 
 
@@ -22,7 +22,7 @@ import { RouterLink } from 'vue-router'
 
 <script lang="ts">
 export default {
-  name: 'HeaderComponent'
+  name: "HeaderComponent"
 }
 </script> 
 
@@ -51,7 +51,7 @@ export default {
  }
 
  .logo-text {
-  display: inline;
+   display: inline;
    color: #616161;
    font: 3.5em sans-serif;
    vertical-align: middle;

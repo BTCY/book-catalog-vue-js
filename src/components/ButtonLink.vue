@@ -24,13 +24,13 @@ withDefaults(defineProps<IProps>(), {
 
 <script lang="ts">
 const enum VariantType {
-  Container = 'container',
-  Text = 'text',
-  Outline = 'outline',
+  Container = "container",
+  Text = "text",
+  Outline = "outline",
 }
 
 export default {
-  name: 'ButtonLink',
+  name: "ButtonLink",
   data() {
     return {
       hover: false,
@@ -39,20 +39,20 @@ export default {
   computed: {
     style() {
       return {
-        width: this.fullWidth ? '100%' : 'auto',
+        width: this.fullWidth ? "100%" : "auto",
         ...(this.variant === VariantType.Container && {
-          backgroundColor: '#26a69a',
-          color: '#fff',
-          ...(this.hover && { backgroundColor: '#009688' })
+          backgroundColor: "#26a69a",
+          color: "#fff",
+          ...(this.hover && { backgroundColor: "#009688" })
         }),
         ...(this.variant === VariantType.Text && {
-          color: '#00695f',
-          ...(this.hover && { backgroundColor: '#e0f2f1' }),
+          color: "#00695f",
+          ...(this.hover && { backgroundColor: "#e0f2f1" }),
         }),
         ...(this.variant === VariantType.Outline && {
-          color: '#00695f',
-          border: '1px solid #00695f',
-          ...(this.hover && { backgroundColor: '#009688' })
+          color: "#00695f",
+          border: "1px solid #00695f",
+          ...(this.hover && { backgroundColor: "#009688" })
         })
       };
     },
