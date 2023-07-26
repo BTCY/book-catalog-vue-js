@@ -18,8 +18,9 @@ import type { IApiGetBooksItem } from '@/api/books-service.types';
       :isHasNextPage=isHasNextPage />
   </div>
 
-  <BookSearchPagination v-if="showResults === 'page' && totalItems && totalPages && totalItems > 0" :totalPages=totalPages
-    :perPage=maxResults :currentPage="currentPage" @pagechanged="onPageChange" />
+  <BookSearchPagination
+    v-if="(showResults === 'page' && loadState === 'success' && books.length > maxResults - 1) && totalItems && totalPages && totalItems > 0"
+    :totalPages=totalPages :perPage=maxResults :currentPage="currentPage" @pagechanged="onPageChange" />
 </template>
 
 
@@ -44,6 +45,7 @@ export default {
   },
   watch: {
     keyword: debounce(function () {
+      this.loadState = 'loading';
       this.search()
     }, 500)
   },
@@ -75,14 +77,21 @@ export default {
       this[field] = value;
       this.currentPage = 1;
       this.isHasNextPage = true;
-      this.books = [];
       if (field !== 'keyword') {
+        this.books = [];
+        this.search();
+      }
+      if (field === 'keyword' && this.showResults === 'scroll') {
+        this.books = [];
         this.search();
       }
       window.scrollTo(0, 0);
     },
     search() {
-      if (this.keyword.trim() === '') return;
+      if (this.keyword.trim() === '') {
+        this.loadState = '';
+        return
+      };
 
       this.loadState = 'loading';
       getBooks(
@@ -92,7 +101,6 @@ export default {
         (this.currentPage - 1) * this.maxResults
       ).then(
         (response) => {
-          console.log(response)
           this.showResults === 'scroll'
             ? this.books.push(...response?.items || []) || undefined
             : this.books = response?.items || [];

@@ -123,7 +123,7 @@ export default {
 
 .pagination-item {
   display: inline-block;
-  margin: 0px 2px;
+  margin: 0px 2px 15px 2px;
 }
 
 .pagination-item>button {
