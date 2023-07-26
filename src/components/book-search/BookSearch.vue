@@ -4,7 +4,7 @@ import { getBooks } from '@/api/books-service';
 import { debounce } from '@/utils/debounce';
 import BookSearchToolbar from './BookSearchToolbar.vue';
 import BookSearchList from './BookSearchList.vue';
-import Pagination from '@/components/common/pagination/Pagination.vue';
+import BookSearchPagination from './BookSearchPagination.vue';
 import type { IApiGetBooksItem } from '@/api/books-service.types';  
 </script> 
 
@@ -18,13 +18,12 @@ import type { IApiGetBooksItem } from '@/api/books-service.types';
       :isHasNextPage=isHasNextPage />
   </div>
 
-  <Pagination v-if="showResults === 'page' && totalItems && totalPages && totalItems > 0" :totalPages=totalPages
+  <BookSearchPagination v-if="showResults === 'page' && totalItems && totalPages && totalItems > 0" :totalPages=totalPages
     :perPage=maxResults :currentPage="currentPage" @pagechanged="onPageChange" />
 </template>
 
 
 <script lang="ts">
-
 const scrollComponent = ref<HTMLInputElement | null>(null);
 export default {
   name: 'BookSearch',
@@ -93,6 +92,7 @@ export default {
         (this.currentPage - 1) * this.maxResults
       ).then(
         (response) => {
+          console.log(response)
           this.showResults === 'scroll'
             ? this.books.push(...response?.items || []) || undefined
             : this.books = response?.items || [];

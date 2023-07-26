@@ -12,16 +12,12 @@
       </button>
     </li>
 
-    <!-- Visible Buttons Start -->
-
     <li v-for="page in pages" :key="page.name" class="pagination-item">
       <button type="button" @click="onClickPage(page.name)" :disabled="page.isDisabled"
         :class="{ active: isPageActive(page.name) }">
         {{ page.name }}
       </button>
     </li>
-
-    <!-- Visible Buttons End -->
 
     <li class="pagination-item">
       <button type="button" @click="onClickNextPage" :disabled="isInLastPage">
@@ -39,8 +35,8 @@
 
 <script lang="ts">
 export default {
-  name: 'PaginationComponent',
-  template: '#pagination',
+  name: 'BookSearchPagination',
+  template: '#bookSearchPagination',
   props: {
     maxVisibleButtons: {
       type: Number,
@@ -121,14 +117,37 @@ export default {
 <style>
 .pagination {
   list-style-type: none;
+  text-align: center;
+  font-size: 1.25em;
 }
 
 .pagination-item {
   display: inline-block;
+  margin: 0px 2px;
 }
 
-.active {
-  background-color: #4AAE9B;
+.pagination-item>button {
+  min-width: 35px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 250ms ease;
+  background-color: #ebebeb;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination-item>button:hover {
+  background-color: #cccccc;
+}
+
+button.active {
   color: #ffffff;
+  background-color: #922d2d;
+}
+
+button.active:hover {
+  color: #ffffff;
+  background-color: #922d2d;
+  cursor: default;
 }
 </style>
