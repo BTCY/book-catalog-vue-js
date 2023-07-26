@@ -1,5 +1,5 @@
-import axios from 'axios'
-import type { IApiBook, IApiGetBooks } from './books-service.types';
+import axios from "axios"
+import type { IApiBook, IApiGetBooks } from "./books-service.types";
 
 /**
  * @file API: Indexed DB.
@@ -8,7 +8,7 @@ import type { IApiBook, IApiGetBooks } from './books-service.types';
 const key = "AIzaSyB7fcxmsckIlWDr67JBMLTW3A8Sz0Wrgy4"
 
 /**
- *  API .
+ *  API.
  * 
  * @param   {string}   q        The start date of your preferred timeframe. 
  * @return  {Promise<IApiGetBooks>}    Exchange rate history

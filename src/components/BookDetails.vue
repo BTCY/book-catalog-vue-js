@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import DetailsField from './DetailsField.vue';
-import ButtonLink from './ButtonLink.vue';
+import { useRoute } from "vue-router"
+import { getBook } from "@/api/books-service";
+import type { IApiBook } from "@/api/books-service.types";
+import DetailsField from "./DetailsField.vue";
+import ButtonLink from "./ButtonLink.vue";
 </script> 
 
 
@@ -38,21 +41,16 @@ import ButtonLink from './ButtonLink.vue';
 
     </div>
   </div>
-</template>
-
+</template> 
 
 
 <script lang="ts">
-import { useRoute } from 'vue-router'
-import { getBook } from '@/api/books-service';
-import type { IApiBook } from '@/api/books-service.types';
-
 export default {
-  name: 'BookDetails',
+  name: "BookDetails",
   data() {
     return {
       book: undefined as undefined | any,
-      loadState: ''
+      loadState: ""
     }
   },
   methods: {
@@ -105,7 +103,7 @@ export default {
           },
           {
             title: "Industry identifiers",
-            value: apiBookData.volumeInfo?.industryIdentifiers?.map(i => i.type + ' — ' + i.identifier)
+            value: apiBookData.volumeInfo?.industryIdentifiers?.map(i => i.type + " — " + i.identifier)
           },
           {
             title: "Language",
@@ -122,13 +120,13 @@ export default {
   mounted() {
     const route = useRoute()
     const bookId = route.params.bookId as string
-    this.loadState = 'loading'
+    this.loadState = "loading"
     getBook(bookId)
       .then(response => {
         if (response !== undefined) {
           this.book = this.bookDataAdapter(response);
         }
-        this.loadState = 'success'
+        this.loadState = "success"
       })
       .catch((error: any) => console.log(error))
   }
