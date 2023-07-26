@@ -49,7 +49,7 @@ defineProps<{
 
   <ul v-if="loadState === 'loading'">
     <li v-for="i in Array(12).fill(0)" :key="i">
-      <div class="book-content-wrap">
+      <div class="book-content-wrap skeleton-mobile">
 
         <div class="thumbnail-wrap">
           <div class="book-thumbnail skeleton">&nbsp;</div>
@@ -238,5 +238,59 @@ export default {
    width: 100%;
    background-color: #F4F4F4;
    border-radius: 5px;
+ }
+
+ @media (max-width: 600px) {
+   li {
+     display: block;
+     height: 490px;
+     position: relative;
+   }
+
+   .book-content-wrap {
+     display: block;
+     position: static;
+   }
+
+   .thumbnail-wrap {
+     display: flex;
+     height: 200px;
+     justify-content: center;
+     margin-bottom: 30px;
+   }
+
+   .info-wrap {
+     position: static;
+     height: 260px;
+   }
+
+   .info-footer {
+     display: block;
+     left: 0px;
+     right: 0px;
+     bottom: 0px;
+     margin-top: 10px;
+     padding: 10px 20px 35px;
+     box-sizing: border-box;
+   }
+
+   .info-footer>.field-wrap {
+     display: inline-block;
+     width: 50%;
+   }
+
+   .info-footer>.field-wrap:last-of-type {
+     text-align: right;
+   }
+
+   .info-show-details-link {
+     box-sizing: border-box;
+     position: relative;
+     display: block;
+     text-align: center;
+     width: 100%;
+     top: 15px;
+     right: 0px;
+   }
  }
 </style>
