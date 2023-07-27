@@ -18,6 +18,7 @@ Catalog of books with detailed information. The catalog is loaded from Google.
 + Shows the result or page by page or infinite scroll
 + Shows detailed information about the book
 + Skeletons when loading data
++ API from Google Api Book
 
 ## Getting Started <a name = "getting_started"></a>
 These instructions will help you run a copy of the project on your local machine for development and testing purposes.
