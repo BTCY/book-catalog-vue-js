@@ -30,7 +30,7 @@ For the project to work, the following dependencies must be installed on your sy
    ```
 
 ## Usage <a name = "usage"></a>
-TODO
+Enter any word in the search box and wait for the result. You can get detailed information about a book by simply clicking on the title of the book.
 
 
 
