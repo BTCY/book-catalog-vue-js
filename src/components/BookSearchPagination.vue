@@ -1,3 +1,11 @@
+<script setup lang="ts">
+defineProps<{
+  totalPages: number,
+  currentPage: number,
+}>();
+</script> 
+
+
 <template>
   <ul class="pagination">
     <li class="pagination-item">
@@ -37,24 +45,10 @@
 export default {
   name: "BookSearchPagination",
   template: "#bookSearchPagination",
-  props: {
-    maxVisibleButtons: {
-      type: Number,
-      required: false,
-      default: 10
-    },
-    totalPages: {
-      type: Number,
-      required: true
-    },
-    perPage: {
-      type: Number,
-      required: true
-    },
-    currentPage: {
-      type: Number,
-      required: true
-    },
+  data() {
+    return {
+      maxVisibleButtons: 10
+    }
   },
   computed: {
     startPage() {
