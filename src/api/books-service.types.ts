@@ -1,12 +1,12 @@
 /**
- * @file API Types: books.
+ * @file API Types: Google Book API.
  * 
  * {@link https://developers.google.com/books/docs/v1/using?hl=ru#PerformingSearch API}
  */
 
 
 /**
- * Get books.
+ * Books.
  * 
  * @interface IApiGetBooks
  */
@@ -17,7 +17,7 @@ export interface IApiGetBooks {
 }
 
 /**
- * Get book item.
+ * Book item.
  * 
  * @interface IApiGetBooksItem
  */
