@@ -148,11 +148,14 @@ export default {
         }
         this.loadState = "success"
       })
-      .catch((error: any) => console.log(error))
+      .catch((error) => {
+        console.log(error);
+        this.loadState = "error"
+        this.book = undefined;
+      })
   }
 }
-</script>
-
+</script> 
 
 <style scoped>  .book-details-wrap {
     margin-bottom: 30px;
