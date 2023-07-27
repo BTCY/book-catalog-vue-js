@@ -9,7 +9,15 @@
 Catalog of books with detailed information. The catalog is loaded from Google.
 
 ### Main Features
-+ Vue.js 3 + TypeScript 
++ Vue.js 3 + TypeScript
++ Vue Router
++ UI: Pure css, no library.
++ Mobile adaptation with media querie
++ Many search options (by title, by author, by publisher or everywhere)
++ Outputting a result on a new or relevant list
++ Shows the result or page by page or infinite scroll
++ Shows detailed information about the book
++ Skeletons when loading data
 
 ## Getting Started <a name = "getting_started"></a>
 These instructions will help you run a copy of the project on your local machine for development and testing purposes.
