@@ -39,7 +39,8 @@ defineProps<{
           <div class="info-footer">
             <DetailsField :field="{ title: 'Published', value: book?.volumeInfo?.publishedDate }" />
             <DetailsField :field="{ title: 'Language', value: book?.volumeInfo?.language }" />
-            <RouterLink :to="{ name: 'book', params: { bookId: book.id } }" class="info-show-details-link">Show details
+            <RouterLink :to="{ name: 'book', params: { bookId: book.id } }" class="info-show-details-link">
+              Show details
             </RouterLink>
           </div>
 
@@ -187,6 +188,7 @@ export default {
  .info-footer {
    display: grid;
    grid-template-columns: 110px 110px auto;
+   grid-template-rows: 38px;
    position: absolute;
    width: 100%;
    bottom: 0px;

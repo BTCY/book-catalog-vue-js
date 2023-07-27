@@ -20,7 +20,7 @@ import BookSearchPagination from "./BookSearchPagination.vue";
 
   <BookSearchPagination
     v-if="(showResults === 'page' && loadState === 'success' && books.length > maxResults - 1) && totalItems && totalPages && totalItems > 0"
-    :totalPages=totalPages :perPage=maxResults :currentPage="currentPage" @pagechanged="onPageChange" />
+    :totalPages="totalPages" :currentPage="currentPage" @pagechanged="onPageChange" />
 </template>
 
 
@@ -59,9 +59,9 @@ export default {
     handleScroll() {
       if (this.loadState === "loading" || this.showResults === "page") return;
 
-      let element = scrollComponent.value
+      const element = scrollComponent.value;
       if (element && element.getBoundingClientRect().bottom < window.innerHeight + 600) {
-        this.isHasNextPage = this.maxResults * (this.currentPage) <= this.totalItems
+        this.isHasNextPage = (this.maxResults * this.currentPage) <= this.totalItems;
         if (this.isHasNextPage) {
           this.currentPage++;
           this.search();
@@ -83,7 +83,6 @@ export default {
       }
       if (field === "keyword" && this.showResults === "scroll") {
         this.books = [];
-        this.search();
       }
       window.scrollTo(0, 0);
     },
@@ -102,10 +101,14 @@ export default {
       ).then(
         (response) => {
           this.showResults === "scroll"
-            ? this.books.push(...response?.items || []) || undefined
+            ? this.books.push(...response?.items || [])
             : this.books = response?.items || [];
-          this.totalItems = response?.totalItems ? response?.totalItems : undefined
-          this.totalPages = response?.totalItems ? Math.ceil(response.totalItems / this.maxResults) : undefined
+          this.totalItems = response?.totalItems
+            ? response.totalItems
+            : undefined;
+          this.totalPages = response?.totalItems
+            ? Math.ceil(response.totalItems / this.maxResults)
+            : undefined;
           this.loadState = "success";
         }
       ).catch(
